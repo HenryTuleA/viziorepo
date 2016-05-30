@@ -1,0 +1,162 @@
+<apex:page standardController="Case" recordSetVar="Case" extensions="CCW_ContactPaginationController" id="page" doctype="html-5.0">
+
+
+<!-- <apex:page controller="CCW_ContactPaginationController" >-->
+    <script type="text/javascript">
+ 
+        /*
+        *    function to handle checkbox selection
+        */
+        function doCheckboxChange(cb,itemId){
+ 
+            if(cb.checked==true){ 
+                aSelectItem(itemId);
+            }
+            else{
+                aDeselectItem(itemId); 
+            }
+  
+        }
+        
+     
+    
+    </script>
+
+
+ 
+    <apex:form >
+ 
+ 
+ 
+       <!--  <apex:pageBlock title="Mass Update1" id="mpb">-->
+        
+        <apex:pageBlock id="step0" title="Test" mode="edit" rendered="{!step='0'}">
+        
+         <!-- handle selected item -->
+        <apex:actionFunction name="aSelectItem" action="{!doSelectItem}" rerender="step0"> 
+            <apex:param name="contextItem" value="" assignTo="{!contextItem}"/>
+        </apex:actionFunction>
+ 
+        <!-- handle deselected item -->
+        <apex:actionFunction name="aDeselectItem" action="{!doDeselectItem}" rerender="step0">
+            <apex:param name="contextItem" value="" assignTo="{!contextItem}"/>
+        </apex:actionFunction>
+        
+        <!-- Search -->
+	        <apex:pageBlockSection title="Search" columns="7" collapsible="false">
+	        
+	 		  <apex:inputField value="{!aCase.status}" id="statusField"/>
+	 		  <apex:inputField value="{!dummy.Case_Response_Date__c}" id="StartField" label="Start Date"/>
+	 		  
+	 		  <!-- <apex:inputText value="{!startDateRange}" label="" size="12" />-->
+	 		  <apex:commandButton action="{!step11}" value="Search"/>
+	 		  
+			</apex:pageBlockSection>
+			
+            <!-- table of data -->
+            <apex:pageBlockTable title="Contacts" value="{!Caselets}" var="c">  
+           
+                            <apex:column >
+                    <apex:facet name="header">Action</apex:facet>
+                    <apex:inputCheckbox value="{!c.IsSelected}" onchange="doCheckboxChange(this,'{!c.tContact.Id}')"/>
+                </apex:column>
+                <apex:column value="{!c.tContact.Id}"/>               
+				<apex:column value="{!c.tContact.Status}"/>
+			    <!-- <apex:column value="{!c.tContact.Owner.Name}"/>-->
+            </apex:pageBlockTable>
+            
+          
+            
+            
+            <!-- Working Search Cases -->
+            <!-- 
+            <apex:pageBlockTable title="Contacts" value="{!SearchCases}" var="c">  
+           
+                            <apex:column >
+                    <apex:facet name="header">Action</apex:facet>
+                    <apex:inputCheckbox value="{!c.IsSelected}" onchange="doCheckboxChange(this,'{!c.tContact.Id}')"/>
+                </apex:column>
+                <apex:column value="{!c.tContact.Id}"/>               
+				<apex:column value="{!c.tContact.Status}"/>
+            </apex:pageBlockTable>
+ 			 -->
+ 			 
+ 			 
+            <!-- count of selected items -->
+            <apex:outputLabel value="[{!selectedCount} records selected]" />
+ 
+            <br/>
+ 
+            <!-- next, previous and page info -->
+            <apex:commandLink action="{!doPrevious}" rendered="{!hasPrevious}" value="Previous" />
+            <apex:outputLabel rendered="{!NOT(hasPrevious)}" value="Previous" />
+ 
+            <apex:outputLabel value=" (page {!pageNumber} of {!totalPages}) " />
+
+            
+            <apex:pageBlockSection >
+            <apex:pageBlockTable var="a" value="{!addedCount}"> 
+                <apex:column value="{!a.Id}"/>
+				<apex:column value="{!a.Status}"/>
+            </apex:pageBlockTable>
+			</apex:pageBlockSection>
+ 
+            <apex:commandLink action="{!doNext}" rendered="{!hasNext}" value="Next" />
+            <apex:outputLabel rendered="{!NOT(hasNext)}" value="Next" />
+            
+             
+              <apex:commandButton action="{!step1}" value="step1"/>
+ 
+        </apex:pageBlock>
+        
+        
+        
+        
+        
+        <!-- Search Mode -->
+        
+        
+          <apex:pageBlock id="step11" title="Step11:Search Mode" mode="edit" rendered="{!step='11'}">
+          
+           <!-- handle selected item -->
+        <apex:actionFunction name="aSelectItem" action="{!doSelectItem}" rerender="step11"> 
+            <apex:param name="contextItem" value="" assignTo="{!contextItem}"/>
+        </apex:actionFunction>
+ 
+        <!-- handle deselected item -->
+        <apex:actionFunction name="aDeselectItem" action="{!doDeselectItem}" rerender="step11">
+            <apex:param name="contextItem" value="" assignTo="{!contextItem}"/>
+        </apex:actionFunction>
+          	
+          	 <apex:pageBlockTable title="Searched Cases with status" value="{!SearchCases}" var="c">  
+           
+                            <apex:column >
+                    <apex:facet name="header">Action</apex:facet>
+                    <apex:inputCheckbox value="{!c.IsSelected}" onchange="doCheckboxChange(this,'{!c.tContact.Id}')"/>
+                </apex:column>
+                <apex:column value="{!c.tContact.Id}"/>                
+				<apex:column value="{!c.tContact.Status}"/>
+            </apex:pageBlockTable>
+            
+           <!-- count of selected items -->
+            <apex:outputLabel value="[{!selectedCount} records selected]" />
+ 
+            <br/>
+            
+            <apex:pageBlockSection >
+            <apex:pageBlockTable var="a" value="{!addedCount}"> 
+                <apex:column value="{!a.Id}"/>
+				<apex:column value="{!a.Status}"/>
+            </apex:pageBlockTable>
+			</apex:pageBlockSection>
+            
+          </apex:pageBlock>
+          
+          
+          
+        
+       
+ 
+    </apex:form>
+ 
+</apex:page>

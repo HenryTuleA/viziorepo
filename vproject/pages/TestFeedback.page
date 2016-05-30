@@ -1,0 +1,19 @@
+<apex:page Controller="TestFeedback"  showHeader="false" cache="false">
+  <apex:pageBlock >
+    <apex:form >
+        <apex:pageBlockSection collapsible="false" title="Feedback" columns="1" rendered="{!Not(showIt)}">           
+            <apex:outputField value="{!newFeedback.Article_Number__c}" label="Article Number: " />
+            <apex:outputField value="{!newFeedback.Version_Number__c}" label="Article Version #: " />
+            <apex:inputField value="{!newFeedback.Internal_Feedback_Reason__c}" label="Feedback Reason: " required="false"/>           
+            <apex:outputField value="{!newFeedback.Feedback_Type__c}" label="Feedback Type: " />       
+            <apex:outputField value="{!newFeedback.User__c}" label="User: " />            
+            <apex:commandButton value="Submit" action="{!submit}"/>            
+        </apex:pageBlockSection>
+        
+        <apex:pageBlockSection collapsible="false" title="Thanks" columns="1" rendered="{!showIt}">
+            <apex:outputText value="Thanks for submitting!"/>
+        </apex:pageBlockSection>
+    
+    </apex:form>
+  </apex:pageBlock> 
+</apex:page>

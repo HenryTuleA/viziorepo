@@ -1,0 +1,34 @@
+<apex:page controller="VizioSupport_CTIAPICall" showHeader="false"  standardStylesheets="true" cache="false" docType="html-5.0" action="{!QueryPhone}">
+   
+ <apex:includeScript value="/support/console/26.0/integration.js"/>
+    <script type="text/javascript">          
+        function openPrimaryTab(id, name) {
+ 			if (sforce.console.isInConsole())
+  				sforce.console.openPrimaryTab(undefined, '/' + id + '?isdtp=vw', true, name);
+ 			else
+  				window.top.location.href = '/' + id;
+			}
+     </script>  
+ <apex:messages />
+    <apex:form >
+    
+  <apex:pageBlock Id="tableBlock" title="Existing Customers:" >
+        
+        <apex:pageBlockTable value="{!matchContactList}" var="item" >
+                    
+                <apex:column headerValue="Customer Name" >                           
+                  <!--  <apex:outputLink target="_self" value="/{!item.id}">{!item.Name} -->
+                  <apex:outputLink target="_self" onclick="openPrimaryTab('{!item.Id}', '{!item.Name}'); return false;">{!item.Name}
+                  </apex:outputLink>              
+                </apex:column>
+                <apex:column value="{!item.Phone}" />
+                <apex:column value="{!item.OtherPhone}" />
+                <apex:column value="{!item.Email}" />
+                <apex:column value="{!item.MailingStreet}" />
+                <apex:column value="{!item.MailingCity}" />
+                <apex:column value="{!item.MailingStateCode}" /> 
+                <apex:column value="{!item.MailingPostalCode}" />
+            </apex:pageBlockTable>
+        </apex:pageBlock>  
+        </apex:form>
+</apex:page>

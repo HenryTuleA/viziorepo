@@ -1,0 +1,456 @@
+<apex:page sidebar="false"  title="VFweb2case" controller="Web2Case" showHeader="false" cache="true" expires="900">
+<apex:pageMessages />
+<style type="text/css">
+
+  a.button {
+  font-family:Arial, sans serif;  
+    color: #333;
+  margin: 2px;
+  padding: 2px 6px;
+  border: 1px solid #b5b5b5;
+  border-bottom-color: #7f7f7f;
+  background: #e8e8e9 url('/img/alohaSkin/btn_sprite.png') repeat-x right top;
+  font-weight: bold;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  text-decoration:none; 
+  font-size: 10.8px;
+  text-align:center;
+  line-height:16px;
+  display:inline-block;
+}
+a.button:hover {
+  text-decoration:none;
+  background-position:right -30px;
+  color:#333333;
+}
+
+.errorMsg{
+  display:none !important;
+  }
+
+@media (max-width: 480px) {
+    .email_title{
+        font-size:14px !important; 
+        display:block;
+        text-align:center;
+        margin: 0 0 10px;
+    }
+    
+    .email_img{
+        display:block;
+        margin:0 auto 10px;
+    }
+    
+}
+
+
+</style>
+
+  <apex:form >
+  
+  <!-- en_US version -->
+    <apex:pageBlock rendered="{!selecten_US}">
+    
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}" >
+       <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"  styleclass="email_img"/> &nbsp;
+        <apex:outputText value="Thank you for choosing VIZIO." style="font-size: 15px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        <!--  <apex:outputText value="{!searchString}"/> -->
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+      
+   
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}">
+        
+         
+        <apex:outputLabel value="Subject:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.subject}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="First Name:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.FirstName}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Last Name:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block"> 
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!lastName}"  style="width:100%; max-width:300px;"/>   
+        </apex:outputPanel>
+            
+        <apex:outputLabel value="Description:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputTextarea value="{!webToCase.Description}"  style="width:100%; max-width:300px;" rows="7"/>  
+        </apex:outputPanel>
+            
+        
+            
+        <apex:outputLabel value="Your Email address:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!emailAddress}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Your Phone Number (e.g. 8885551234):" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.Phone}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Product Model Number:" /> 
+        <apex:outputPanel layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.Product_Model_Number__c}" required="false" style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+         
+     <!--    <apex:outputPanel layout="block">      
+        <apex:outputLabel value="Language:" /> &nbsp;
+       
+         <apex:outputField value="{!webToCase.Language__c}"/> 
+         </apex:outputPanel> -->
+         
+         <apex:outputLabel value="File" for="file"/>
+         <apex:outputPanel >
+           <apex:inputFile value="{!userAttachment.body}" filename="{!userAttachment.name}" id="file1" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment2.body}" filename="{!userAttachment2.name}" id="file2" styleclass="attachFile"/><div/><p/><div/>
+           
+           <apex:inputFile value="{!userAttachment3.body}" filename="{!userAttachment3.name}" id="file3" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment4.body}" filename="{!userAttachment4.name}" id="file4" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment5.body}" filename="{!userAttachment5.name}" id="file5" styleclass="attachFile"/>
+         </apex:outputPanel>
+         
+         
+        <apex:outputPanel >               
+        <apex:commandButton value="Submit" action="{!submit}"/> &nbsp;
+     
+      <a class="button" id="cancel_btn" href="#" onclick="parent.cancelModal();">Cancel</a>
+         
+      </apex:outputPanel>
+            
+      </apex:pageBlockSection>
+      
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!showThanks}">
+      <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"   styleclass="email_img"/> &nbsp;
+        <apex:outputText value="Thanks for submitting." style="font-size: 20px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+        
+       
+    
+    </apex:pageBlock>
+    
+    
+    
+    
+    <!-- en_CA version -->
+    <apex:pageBlock rendered="{!selecten_CA}">
+    
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}" >
+       <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"   styleclass="email_img"/> &nbsp;
+        <apex:outputText value="Thank you for choosing VIZIO." style="font-size: 15px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        <!--  <apex:outputText value="{!searchString}"/> -->
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+      
+   
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}">
+        
+         
+        <apex:outputLabel value="Subject:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.subject}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="First Name:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.FirstName}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Last Name:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block"> 
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!lastName}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+            
+        <apex:outputLabel value="Description:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputTextarea value="{!webToCase.Description}"  style="width:100%; max-width:300px;" rows="7"/>  
+        </apex:outputPanel>
+            
+        
+            
+        <apex:outputLabel value="Your Email address:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!emailAddress}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Your Phone Number (e.g. 8885551234):" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.Phone}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Product Model Number:" /> 
+        <apex:outputPanel layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.Product_Model_Number__c}" required="false" style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>  
+        
+    <!--    <apex:outputPanel layout="block">      
+        <apex:outputLabel value="Language:" /> &nbsp;
+       
+         <apex:outputField value="{!webToCase.Language__c}"/> 
+         </apex:outputPanel> -->
+        
+        <apex:outputLabel value="File" for="file"/>
+         <apex:outputPanel >
+           <apex:inputFile value="{!userAttachment.body}" filename="{!userAttachment.name}" id="file1" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment2.body}" filename="{!userAttachment2.name}" id="file2" styleclass="attachFile"/><div/><p/><div/>
+           
+           <apex:inputFile value="{!userAttachment3.body}" filename="{!userAttachment3.name}" id="file3" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment4.body}" filename="{!userAttachment4.name}" id="file4" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment5.body}" filename="{!userAttachment5.name}" id="file5" styleclass="attachFile"/>
+         </apex:outputPanel>
+         
+        <apex:outputPanel >               
+        <apex:commandButton value="Submit" action="{!submit}"/> &nbsp;
+     
+      <a class="button" id="cancel_btn" href="#" onclick="parent.cancelModal();">Cancel</a>
+         
+      </apex:outputPanel>
+            
+      </apex:pageBlockSection>
+      
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!showThanks}">
+      <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"   styleclass="email_img"/> &nbsp;
+        <apex:outputText value="Thanks for submitting." style="font-size: 20px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+        
+       
+    
+    </apex:pageBlock>
+    
+    
+    
+    
+    <!-- fr_CA version -->
+    <apex:pageBlock rendered="{!selectfr_CA}">
+    
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}" >
+       <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"   styleclass="email_img"/> &nbsp;
+        <apex:outputText value="Nous vous remercions d'avoir choisi VIZIO." style="font-size: 15px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        <!--  <apex:outputText value="{!searchString}"/> -->
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+      
+   
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}">
+        
+         
+        <apex:outputLabel value="Sujet:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.subject}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Prénom:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.FirstName}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Nom:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block"> 
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!lastName}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+            
+        <apex:outputLabel value="Description:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputTextarea value="{!webToCase.Description}"  style="width:100%; max-width:300px;" rows="7"/>  
+        </apex:outputPanel>
+            
+        
+            
+        <apex:outputLabel value="Votre courriel:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!emailAddress}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Numéro de téléphone (e.g. 8885551234):" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.Phone}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Numéro de modèle du produit:" /> 
+        <apex:outputPanel layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.Product_Model_Number__c}" required="false" style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+     <!--   <apex:outputPanel layout="block">      
+        <apex:outputLabel value="langue:" /> &nbsp;
+       
+         <apex:outputField value="{!webToCase.Language__c}"/> 
+         </apex:outputPanel>-->
+        
+        <apex:outputLabel value="Fichier" for="file"/>
+         <apex:outputPanel >
+           <apex:inputFile value="{!userAttachment.body}" filename="{!userAttachment.name}" id="file1" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment2.body}" filename="{!userAttachment2.name}" id="file2" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment3.body}" filename="{!userAttachment3.name}" id="file3" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment4.body}" filename="{!userAttachment4.name}" id="file4" styleclass="attachFile"/><div/><p/><div/>
+
+           <apex:inputFile value="{!userAttachment5.body}" filename="{!userAttachment5.name}" id="file5" styleclass="attachFile"/>
+         </apex:outputPanel>
+         
+        <apex:outputPanel >               
+        <apex:commandButton value="Soumettre" action="{!submit}"/> &nbsp;
+     
+      <a class="button" id="cancel_btn" href="#" onclick="parent.cancelModal();">Annuler</a>
+         
+      </apex:outputPanel>
+            
+      </apex:pageBlockSection>
+      
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!showThanks}">
+      <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"   styleclass="email_img"/> &nbsp;
+        <apex:outputText value="Merci pour votre soumission." style="font-size: 20px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+        
+       
+    
+    </apex:pageBlock>
+    
+    
+    
+    <!-- es_MX version -->
+    <apex:pageBlock rendered="{!selectes_MX}">
+    
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}" >
+       <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"   styleclass="email_img"/> &nbsp;
+        <apex:outputText value="¡Gracias por elegir VIZIO." style="font-size: 15px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        <!--  <apex:outputText value="{!searchString}"/> -->
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+      
+   
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!Not(showThanks)}">
+        
+         
+        <apex:outputLabel value="Asunto:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.subject}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Nombre:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.FirstName}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        <apex:outputLabel value="Apellido" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block"> 
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!lastName}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+            
+        <apex:outputLabel value="Descripción:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputTextarea value="{!webToCase.Description}"  style="width:100%; max-width:300px;" rows="7"/>  
+        </apex:outputPanel>
+            
+        
+            
+        <apex:outputLabel value="Correo electrónico:" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputText value="{!emailAddress}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        
+         <apex:outputLabel value="Número de teléfono (e.g. 8885551234):" /> 
+        <apex:outputPanel styleClass="requiredInput" layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!caseContact.Phone}"  style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+        
+        <apex:outputLabel value="Número de modelo del producto:" /> 
+        <apex:outputPanel layout="block">
+        <apex:outputPanel styleClass="requiredBlock" layout="block"/>
+          <apex:inputField value="{!webToCase.Product_Model_Number__c}" required="false" style="width:100%; max-width:300px;"/>  
+        </apex:outputPanel>
+        
+    <!--    <apex:outputPanel layout="block">      
+        <apex:outputLabel value="Idioma:" /> &nbsp;
+       
+         <apex:outputField value="{!webToCase.Language__c}"/> 
+         </apex:outputPanel> -->
+        
+        <apex:outputLabel value="Archivo" for="file"/>
+         <apex:outputPanel >
+           <apex:inputFile value="{!userAttachment.body}" filename="{!userAttachment.name}" id="file1" styleclass="attachFile"/><div/><p/><div/>
+         
+           <apex:inputFile value="{!userAttachment2.body}" filename="{!userAttachment2.name}" id="file2" styleclass="attachFile"/><div/><p/><div/>
+         
+           <apex:inputFile value="{!userAttachment3.body}" filename="{!userAttachment3.name}" id="file3" styleclass="attachFile"/><div/><p/><div/>
+         
+           <apex:inputFile value="{!userAttachment4.body}" filename="{!userAttachment4.name}" id="file4" styleclass="attachFile"/><div/><p/><div/>
+         
+           <apex:inputFile value="{!userAttachment5.body}" filename="{!userAttachment5.name}" id="file5" styleclass="attachFile"/>
+         </apex:outputPanel>
+         
+         
+        <apex:outputPanel >               
+        <apex:commandButton value="Enviar" action="{!submit}"/> &nbsp;
+     
+      <a class="button" id="cancel_btn" href="#" onclick="parent.cancelModal();">Cancelar</a>
+         
+      </apex:outputPanel>
+            
+      </apex:pageBlockSection>
+      
+      <apex:pageBlockSection collapsible="false" columns="1" rendered="{!showThanks}">
+      <apex:outputPanel >
+        <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"  styleclass="email_img" /> &nbsp;
+        <apex:outputText value="Gracias por enviar." style="font-size: 20px; color: #AC3322; font-weight: bold" styleclass="email_title"/>
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+        
+    
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,79 @@
+<apex:page title="Network Troubleshooting Tool v2.51" sidebar="false" showHeader="false" cache="false">
+<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+
+
+
+<script>
+j$ = jQuery.noConflict();
+
+
+j$(document).ready(function() {
+        
+     j$("body .bPageBlock .pbBody .labelCol").addClass("columns");
+                j$("body .bPageBlock .pbBody .dataCol").addClass("columns");
+
+                
+        j$("img.a_img").closest("div.pbSubsection").addClass("starter");        
+       /* j$("img.a_img").closest("body .bPageBlock .pbBody .labelCol").removeClass("columns"); 
+        j$("img.a_img").closest("body .bPageBlock .pbBody .dataCol").removeClass("columns"); */
+        j$("div.pbSubsection.starter table tr").children().removeClass("columns");
+        
+        }); 
+    
+</script>
+
+<style type="text/css">
+.bpageBlock .pbButtomButtons .pbButtonb .btn {
+    color: #808080;
+    display: inline;
+    float: left;
+    fond: bold 12px arial, sans-serif;
+    height: 18px;
+}
+
+.pbTitle{
+display:none;
+}
+
+
+input.btn.FlowNextBtn, input.btn.FlowPreviousBtn, input.btn.FlowFinishBtn{
+float:left;
+}
+
+body .bPageBlock .pbBody .empty{
+display:none;
+}
+
+body .bPageBlock .pbBody .dataCol.columns{
+width:50%;
+}
+
+body .bPageBlock .pbBody .labelCol.columns{
+width:50%;
+text-align:left;
+padding:10px 0 0 10px;
+}
+
+
+
+body .bPageBlock .pbBody .labelCol{
+text-align:left;
+padding:10px 0 0 10px;
+width:10%;
+}
+
+
+body .bPageBlock .pbBody .pbSubsection.starter .empty{
+display:block;
+}
+
+
+</style>
+
+
+<apex:sectionheader title="Network Troubleshooting Tool v2.5" >
+
+  <flow:interview name="Network_Troubleshooting_Tool_v2_5" buttonLocation="bottom" finishLocation="{!URLFOR('/home/home.jsp')}"/>
+
+</apex:sectionheader> 
+</apex:page>

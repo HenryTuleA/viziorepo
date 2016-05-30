@@ -1,0 +1,2 @@
+<apex:page standardController="Document__c" extensions="VizioSupport_DeleteRecordsController"
+           action="{!doDeleteListDocuments}" recordSetVar="TestRecords" />

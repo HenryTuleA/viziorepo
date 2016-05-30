@@ -1,0 +1,90 @@
+<apex:page extensions="POSController" standardController="Claim__c" tabStyle="Claim__c" sidebar="true" showHeader="true" title="POS">
+
+    <style>
+        .displayNone { 
+            display:none; 
+        }
+        .displayBlock {
+            display:block;
+        }
+        .ui-autocomplete-loading { 
+            background: white url(/img/loading32.gif) right center no-repeat;
+            background-size:15px 15px; 
+        }
+    </style>
+    
+    <script src="https://code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css"/>
+    
+  <apex:pageMessages id="message"/>
+  <apex:form id="show">
+      <apex:outputpanel >
+        <apex:actionstatus id="entryStatus">
+            <apex:facet name="start">
+                <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 100%;opacity:0.65;width:100%;"> 
+                    <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                        <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                        <span class="waitingDescription">Please Wait...</span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputpanel>
+      
+      <apex:outputPanel id="PanelId">
+          <apex:pageBlock id="pb">
+              <apex:pageBlockButtons location="top">
+                  <apex:commandButton value="Get POS" action="{!getSetCon}" reRender="pb, message" status="entryStatus"/>
+              </apex:pageBlockButtons>
+              <apex:pageBlockTable value="{!ShowList}" var="p" id="posId">
+           
+                  <apex:column headerValue="Year" value="{!p.Year__c}"/>
+                  <apex:column headerValue="Week" value="{!p.Week__c}"/>
+                  <apex:column headerValue="Start Date" value="{!p.Start_Date__c}">
+                      <apex:facet name="header">
+                        <apex:commandLink value="Start Date{!IF(sortExpression=='Start Date',IF(sortDirection='ASC','▲','▼'),'')}" action="{!clickLink}" reRender="PanelId, message" status="entryStatus" style="text-decoration:underline" >
+                            <apex:param value="Start Date" name="column"  assignTo="{!sortExpression}"/>
+                        </apex:commandLink>
+                      </apex:facet>
+                  </apex:column>
+                  <apex:column headerValue="End Date" value="{!p.End_Date__c}">
+                      <apex:facet name="header">
+                        <apex:commandLink value="End Date{!IF(sortExpression=='End Date',IF(sortDirection='ASC','▲','▼'),'')}" action="{!clickLink}" reRender="PanelId, message" status="entryStatus" style="text-decoration:underline">
+                            <apex:param value="End Date" name="column"  assignTo="{!sortExpression}"/>
+                        </apex:commandLink>
+                      </apex:facet>
+                  </apex:column>
+                  <apex:column headerValue="SKU" value="{!p.SKU__c}"/>
+                  <apex:column headerValue="Model" value="{!p.Model__c}">
+                      <apex:facet name="header">
+                        <apex:commandLink value="Model{!IF(sortExpression=='Model',IF(sortDirection='ASC','▲','▼'),'')}" action="{!clickLink}" reRender="PanelId, message" status="entryStatus" style="text-decoration:underline">
+                            <apex:param value="Model" name="column"  assignTo="{!sortExpression}"/>
+                        </apex:commandLink>
+                      </apex:facet>
+                  </apex:column>
+                  <apex:column headerValue="Sell Through" value="{!p.Sell_Through__c}">
+                      <apex:facet name="header">
+                        <apex:commandLink value="Sell Through{!IF(sortExpression=='Sell Through',IF(sortDirection='ASC','▲','▼'),'')}" action="{!clickLink}" reRender="PanelId, message" status="entryStatus" style="text-decoration:underline">
+                            <apex:param value="Sell Through" name="column"  assignTo="{!sortExpression}"/>
+                        </apex:commandLink>
+                      </apex:facet>
+                  </apex:column>
+                  <apex:column headerValue="On Hand Quantity" value="{!p.On_Hand_Quantity__c}">
+                      <apex:facet name="header">
+                        <apex:commandLink value="On Hand Quantity{!IF(sortExpression=='On Hand Quantity',IF(sortDirection='ASC','▲','▼'),'')}" action="{!clickLink}" reRender="PanelId, message" status="entryStatus" style="text-decoration:underline">
+                            <apex:param value="On Hand Quantity" name="column"  assignTo="{!sortExpression}"/>
+                        </apex:commandLink>
+                      </apex:facet>
+                  </apex:column>
+                  <apex:column headerValue="Current Store Count" value="{!p.Current_Store_Count__c}"/>
+                  <apex:column headerValue="Traited Store" value="{!p.Traited_Store__c}"/>
+              </apex:pageBlockTable>
+              <apex:commandLink action="{!previous}" rendered="{!hasPrevious}" value="Previous" status="entryStatus" reRender="PanelId,message"/>
+              <apex:outputLabel value=" [page {!pageNumber} of {!totalPages}] " rendered="{!hasPage}"/>
+              <apex:commandLink action="{!next}" rendered="{!hasNext}" value="Next" status="entryStatus" reRender="PanelId,message"/>
+          </apex:pageBlock>
+      </apex:outputPanel>
+  </apex:form>        
+</apex:page>

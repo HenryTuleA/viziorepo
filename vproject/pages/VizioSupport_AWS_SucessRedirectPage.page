@@ -1,0 +1,32 @@
+<apex:page controller="VizioSupport_AWS_Upload">
+ <script> 
+ 
+        VizioSupport_AWS_Upload.createNewDocument('{!$CurrentPage.parameters.parentIdForRedirect}','{!$CurrentPage.parameters.key}',
+                                                '{!$CurrentPage.parameters.bucket}',function(result,event){
+                
+                if (event.status) {
+                       
+                             var confirmChk = confirm("Your Document is Uploaded Successfully . Press Ok to upload more record! Press Cancel to return to case");  
+
+                             if(confirmChk ){ 
+                                 window.history.back();
+                            } 
+                          else{
+                              VizioSupport_AWS_Upload.reDirect('{!$CurrentPage.parameters.parentIdForRedirect}',function(result,event){
+                                    window.open(result,"_self");
+                                    });
+        
+                          }
+                    } else if (event.type === 'exception') {
+                        alert('Something wrong happened' );
+                    } else {
+                       alert('Something wrong happened' );
+                    } 
+                                     
+ 
+ 
+ })
+ 
+</script>
+  
+</apex:page>

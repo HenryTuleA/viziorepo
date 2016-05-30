@@ -1,0 +1,162 @@
+<apex:page standardController="case" extensions="VizioSupport_ServiceRequestList" showHeader="false"  cache="false" docType="html-5.0">
+
+<script type="text/javascript">          
+        function noenter(e) {
+       
+            if (window.event) {                    
+                key = window.event.keyCode;     //IE               
+            } 
+            else {                    
+                key = e.which;     //firefox               
+            }
+                           
+            if (key == 13) {     
+                executeFind();         
+                return false;               
+            }
+            else {                    
+                return true;               
+            }          
+        }     
+     </script>
+
+  <apex:form >
+  
+  <apex:outputpanel >
+        <apex:actionstatus id="entryStatus">
+            <apex:facet name="start">
+                <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 200%;opacity:0.65;width:100%;"> 
+                    <div class="waitingHolder" style="top: 274.2px; width: 91px;">
+                        <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                        <span class="waitingDescription">Please Wait...</span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputpanel>
+    
+  <apex:pageBlock id="needRefresh">
+  
+     <apex:outputLink target="_blank" value="/apex/VizioSupport_CreateServiceRequest?CaseID={!CaseId}" rendered="{!createOrNot}" style="font-size:11pt;font-weight:bold; Color:#3366cc;">Create Service Request </apex:outputLink> 
+     <apex:outputText rendered="{!isCanada}" Value="Customer is within Best Buy/ Future Shop service area in Canada. Please warm transfer customer to 1-888-678-2581" style="font-size:11pt;Color:#ff0000;"/> 
+     
+     <!-- empty section -->
+        <apex:pageBlockSection > <apex:pageBlockSectionItem > </apex:pageBlockSectionItem> </apex:pageBlockSection>
+         
+        <apex:pageBlockTable value="{!RelatedSR}" var="itemSR" columnswidth="50px,100px,50px,80px,50px,50px,100px,50px" >  
+                
+                <!-- SR Number -->   
+                <apex:column headerValue="SR Number" >               
+                <apex:facet name="header">
+                   <apex:commandLink value="SR Number{!IF(sortExpression=='Name',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="Name" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputLink target="_blank" value="/{!itemSR.Id}">{!itemSR.Name}
+                  </apex:outputLink>
+                 
+                </apex:column>
+               
+                <!-- Error Code --> 
+                <apex:column headerValue="Error Code" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="Error Code{!IF(sortExpression=='Error_Code__r.Name',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="Error_Code__r.Name" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!itemSR.Error_Code__r.Name} {!itemSR.Error_Code__r.Description__c}"/>                
+                </apex:column> 
+                
+                <!-- SR Type --> 
+                <apex:column headerValue="SR Type" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="SR Type{!IF(sortExpression=='SRType__c',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="SRType__c" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!itemSR.SRType__c}"/>                
+                </apex:column> 
+                
+                <!-- Reason -->  
+                <apex:column headerValue="S.provider" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="S.provider{!IF(sortExpression=='Service_Provider__r.ServiceProviderName__c',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="Service_Provider__r.ServiceProviderName__c" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!itemSR.Service_Provider__r.ServiceProviderName__c}"/>                
+                </apex:column> 
+                
+                
+                <!-- Status -->  
+                <apex:column headerValue="Status" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="Status{!IF(sortExpression=='Status__c',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="Status__c" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!itemSR.Status__c}"/>                
+                </apex:column> 
+                
+ 
+                <!-- Reason --> 
+                <apex:column headerValue="Reason" >                
+                <apex:facet name="header">
+                   <apex:commandLink value="Reason{!IF(sortExpression=='StatusReason__c',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="StatusReason__c" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!itemSR.StatusReason__c}"/>                
+                </apex:column>
+                
+                <!-- Created Date --> 
+                <apex:column headerValue="Created Date" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="Created Date{!IF(sortExpression=='Convert_CreateDate__c',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="Convert_CreateDate__c" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!itemSR.Convert_CreateDate__c}"/>                
+                </apex:column> 
+                
+                <!-- CR. By --> 
+                <apex:column headerValue="CR. By" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="CR. By{!IF(sortExpression=='CreatedBy.Name',IF(sortDirection='ASC',' Asc',' Desc'),'')}" action="{!clickToSort}">
+                     <apex:param value="CreatedBy.Name" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!itemSR.CreatedBy.Name}"/>                
+                </apex:column> 
+                
+                   
+                
+         </apex:pageBlockTable>   
+
+          <apex:outputPanel >
+          <div style="text-align:center">
+            <apex:commandButton value="|<" action="{!setCon.first}" disabled="{!!setCon.hasPrevious}" title="Beginning" style="text-transform: capitalize;"/>
+            <apex:commandButton value="<Previous" action="{!setCon.previous}" disabled="{!!setCon.hasPrevious}" title="Previous" style="text-transform: capitalize;"/>
+           
+            <apex:commandButton value="Next>" action="{!setCon.next}" disabled="{!!setCon.hasNext}" title="Next" style="text-transform: capitalize;"/>
+            <apex:commandButton value=">|" action="{!setCon.last}" disabled="{!!setCon.hasNext}" title="End" style="text-transform: capitalize;"/>               
+   	      </div>
+   	    </apex:outputPanel>	
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

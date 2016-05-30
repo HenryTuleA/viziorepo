@@ -1,0 +1,38 @@
+<apex:page controller="Vizio_BrainTreeClass">
+<script src="https://js.braintreegateway.com/js/braintree-2.22.2.min.js"></script>
+
+<apex:pageMessages />
+<form id="checkout" method="post" action="/checkout">
+  <div id="dropin-container"></div>
+  <!-- <input type="text" value="{!amount}" id="amt"/> -->
+  <input type="submit" value="Pay"/>
+</form>
+    <apex:form >
+        <apex:actionFunction name="backtoParent" action="{!sendNonceToken}" rerender="view">
+             <apex:param id="id1" name="myNonce" value=""/>     
+             <apex:param id="id2" name="myOrderId" value=""/>
+        </apex:actionFunction>
+    </apex:form>   
+<script>
+    var clientToken = "{!cardToken}";
+    braintree.setup(clientToken, "dropin", {
+      //container: "payment-form",
+      container: "dropin-container",
+      
+      onPaymentMethodReceived: function (payload) {
+        // retrieve nonce from payload.nonce
+        //alert(payload.type);
+        console.log(payload.nonce); 
+        var idval = '0000636'; 
+        // "{!$CurrentPage.parameters.parentIdForRedirect}";
+        backtoParent(payload.nonce, idval);
+      },
+      onError: function (payload) {
+        // Error
+        alert('Error ' + payload.type);
+        console.log('Error ' + payload.message);         
+      }
+    });
+    
+</script>
+</apex:page>

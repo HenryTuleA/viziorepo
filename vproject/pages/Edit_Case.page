@@ -1,0 +1,33 @@
+<apex:page standardController="case" extensions="EditCase" showHeader="false"  cache="false">
+  
+  <script>
+  /**Resizing the window to smaller size**/
+  window.onload = function() {    
+    window.resizeTo(600, 500);    
+};</script>
+   
+<apex:form >
+
+<apex:pageBlock title="Edit Case" mode="edit">
+    <apex:pageBlockSection columns="1">
+        <apex:inputField id="contact" value="{!caseList[0].Status}" required="true" style="width:300px" label="Case Status"/>    <!--Status field-->
+        <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+        
+        <apex:inputField id="owner" value="{!caseList[0].Ownerid}" required="true" style="width:300px" label="Assigned To"/>   <!--Case Owner-->
+        <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+        
+       <apex:inputField id="action_code" value="{!caseList[0].Action_Code__c}" required="true" style="width:300px"/>   <!--Action codes-->
+       <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+       		       		   
+      <apex:inputField id="notes" value="{!currentCaseComment.CommentBody}" required="false" style="width:300px" label="Notes"/>   <!--Action codes-->
+        <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>          
+     </apex:pageBlockSection>          
+        
+           <apex:pageblockbuttons location="Bottom">
+             <apex:commandbutton action="{!Submit}" value="Save"></apex:commandbutton> <!--Save button calling UpdateStatus method-->
+             <apex:commandbutton action="{!cancel}" value="Cancel"></apex:commandbutton>    <!--Cancel button-->
+           </apex:pageblockbuttons>
+                     
+ </apex:pageBlock>
+ </apex:form> 
+</apex:page>

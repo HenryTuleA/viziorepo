@@ -1,0 +1,8 @@
+<apex:page standardController="Claim__c" extensions="SubmitClaimeController" action="{!submit}">
+    <apex:form >
+        <apex:pageMessages id="message"/>
+        <div align="center">
+            <apex:commandButton value="OK" action="{!okButton}" />
+        </div>
+    </apex:form> 
+</apex:page>

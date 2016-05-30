@@ -1,0 +1,165 @@
+<apex:page controller="VizioSupport_ReceiveCallController" sidebar="false" showHeader="true">
+
+ <apex:form >
+    <apex:pageBlock >
+
+				<apex:pageBlockSection columns="1">
+            		<apex:pageBlockSectionItem >
+		            	<apex:outputText value="1. Identifying Caller: " style="font-size:10.5pt;font-weight:bold"/> 
+		            	<apex:outputText value="Thank you for calling Vizio. My name is: UC Innovation, how may I help you?" 
+		            		style="font-size:10.5pt;font-weight:bold;color:darkblue" />
+            		</apex:pageBlockSectionItem>
+				</apex:pageBlockSection>
+            	
+            	<apex:pageBlockSection columns="2">
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem >
+                        <apex:outputLabel >First Name </apex:outputLabel>
+                        <apex:inputText value="{!contact1.FirstName}" disabled="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Last Name </apex:outputLabel>
+                        <apex:inputText value="{!contact1.LastName}" disabled="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Email </apex:outputLabel>
+                        <apex:inputText value="{!contact1.email}" disabled="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Phone Number </apex:outputLabel>
+                        <apex:inputText value="{!contact1.phone}" disabled="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem />
+                </apex:pageBlockSection>
+            	<!-- 
+            	<div align="center" draggable="false" >
+					<apex:commandButton value="Create New Customer" />
+				</div>
+ 				-->
+            	
+            	
+            	<apex:pageBlockSection columns="1">
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem >
+		            	<apex:outputText value="2.1. Assigning Case: " style="font-size:10.5pt;font-weight:bold"/> 
+            			<apex:outputText value="Are you calling regarding an old case or a new case? "
+            				style="font-size:10.5pt;font-weight:bold;color:darkblue" /> 
+            		</apex:pageBlockSectionItem>
+            		<apex:pageBlockSectionItem />
+				</apex:pageBlockSection>
+            	
+            	
+            	
+            	<apex:pageBlockSection columns="1">
+            		<apex:pageBlockSectionItem >
+		            	<apex:outputText value="2.2. Identifying Asset: " style="font-size:10.5pt;font-weight:bold"/>
+		            	<apex:outputText value=" " style="font-size:10.5pt;font-weight:bold"/> 
+            		</apex:pageBlockSectionItem>
+            		<apex:pageBlockSectionItem />
+				</apex:pageBlockSection>
+				
+				
+				<apex:pageBlockSection columns="2">
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem >
+                        <apex:outputLabel >Model </apex:outputLabel>
+                        <apex:inputText value="{!case1.Product_Model_Number__c}" disabled="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Product Category</apex:outputLabel>
+                        <apex:inputField value="{!case1.Product_Category__c}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Serial Number</apex:outputLabel>
+                        <apex:inputText value="{!case1.Serial_No__c}" disabled="true"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Asset Notes</apex:outputLabel>
+                        <apex:inputField value="{!asset1.Asset_Notes__c}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem />
+                </apex:pageBlockSection>
+                
+                <!-- 
+                <div align="center" draggable="false" >
+					<apex:commandButton value="Search KBase" />
+					<apex:commandButton value="60/70 PR Script" />
+				</div>
+				 -->
+				
+				<apex:pageBlockSection columns="1">
+            		<apex:pageBlockSectionItem >
+		            	<apex:outputText value="3. Problem & Resolution: " style="font-size:10.5pt;font-weight:bold"/>
+		            	<apex:outputText value=" " style="font-size:10.5pt;font-weight:bold"/> 
+            		</apex:pageBlockSectionItem>
+            		<apex:pageBlockSectionItem />
+				</apex:pageBlockSection>
+                
+                
+                <apex:pageBlockSection columns="2">
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem >
+                        <apex:outputLabel >Call Source </apex:outputLabel>
+                        <!-- <apex:inputField value="{!call1.Ticket_Source__c}"/> ASK ABHIJIT  -->
+                        <apex:inputField value="{!case1.Origin}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Problem</apex:outputLabel> <!-- TODO -->
+                        <apex:inputField value="{!case1.Problem_Detail__c}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Resolution</apex:outputLabel>
+                        <apex:inputField value="{!case1.Resolution__c}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Case #</apex:outputLabel>
+                        <apex:inputField value="{!case1.ID}" />
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem />
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel ></apex:outputLabel>
+                       	<apex:commandButton value="Square Trade" />
+                    </apex:pageBlockSectionItem>
+                	
+                </apex:pageBlockSection>
+                
+            	
+				
+            	
+            	<apex:pageBlockSection columns="2">
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem />
+            		<apex:pageBlockSectionItem >
+                        <apex:outputLabel >Problem Code </apex:outputLabel>
+                        <apex:inputField value="{!case1.Problem_Code_1__c}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                    	<apex:outputLabel >Problem Code 2 </apex:outputLabel>
+                        <apex:inputField value="{!case1.Problem_Code_2__c}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Case Status</apex:outputLabel>
+                        <apex:inputField value="{!case1.Status}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                    	<apex:outputLabel >Problem Code 3 </apex:outputLabel>
+                        <apex:inputField value="{!case1.Problem_Code_3__c}"/>
+                    </apex:pageBlockSectionItem>
+              	</apex:pageBlockSection>
+              	
+              	
+
+          		
+              	<div align="center" draggable="false" >
+					<apex:commandButton id="saveButton" value="Save" action="{!save}" />   
+				</div>
+          		
+          		
+
+
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

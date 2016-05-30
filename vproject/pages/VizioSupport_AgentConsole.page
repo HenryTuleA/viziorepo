@@ -1,0 +1,425 @@
+<apex:page controller="VizioSupport_AgentConsoleController" sidebar="false" showHeader="true">
+
+    <apex:sectionHeader title="Welcome {!$User.FirstName} {!$User.LastName}!" subtitle="Agent Console"> 
+    </apex:sectionHeader>
+
+    <apex:form >
+        <apex:pageBlock id="tablesBlock">         
+                
+            <apex:pageBlockSection columns="7" title="Customer" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Store</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >First Name</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Last Name</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Phone</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Email</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Zip Code</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem />
+                
+                <apex:inputText value="{!contactStoreName}" label="" size="12" /> 
+                <apex:inputField value="{!contact1.FirstName}" label="" />
+                <apex:inputText value="{!contact1.LastName}" label="" size="15" />
+                <apex:inputText value="{!contact1.phone}" label="" size="15"/>
+                <apex:inputText value="{!contact1.email}" label="" size="15"/>
+                <apex:inputText value="{!contact1.mailingPostalCode}" label="" size="15"/>
+                
+                
+                <apex:commandButton value="Search" action="{!queryCustomers}" rerender="tablesBlock" > 
+                    <apex:param id="param2" name="firstTimeFlag" value="false" />
+                </apex:commandButton> 
+                
+                <apex:pageBlockSectionItem /> 
+            </apex:pageBlockSection>
+                
+                
+            <!-- CONTACT TABLE -->
+            <apex:pageBlockSection columns="1" id="contactBlock"> 
+                <apex:pageBlockTable value="{!contactList}" var="c" title="Cases"> 
+                     <apex:column headerValue="Customer ID">
+                        <apex:outputLink value="/{!c.ID}">
+                            <apex:outputText value="{!c.ID}"/>
+                        </apex:outputLink>
+                     </apex:column>
+                      
+                     <apex:column headerValue="First Name"> 
+                         <apex:outputText value="{!c.FirstName}" />
+                     </apex:column>
+                     
+                     <apex:column headerValue="Last Name"> 
+                         <apex:outputText value="{!c.LastName}" />
+                     </apex:column>
+                      
+                     <apex:column headerValue="Store Name"> 
+                         <apex:outputText value="{!c.Store_Name__c}" /> 
+                     </apex:column>
+                     
+                     <apex:column headerValue="Store Number"> 
+                         <apex:outputText value="{!c.Store_Number__c}" /> 
+                     </apex:column>
+                      
+                     <apex:column headerValue="Phone"> 
+                         <apex:outputText value="{!c.Phone}" />
+                     </apex:column>
+                     
+                     <apex:column headerValue="Alternate Phone"> 
+                         <apex:outputText value="{!c.MobilePhone}" />
+                     </apex:column>
+                     
+                     <apex:column headerValue="Assigned Agent"> 
+                         <apex:outputText value="{!c.CreatedBy.FirstName} {!c.CreatedBy.LastName}" />
+                     </apex:column>
+                     
+                     <apex:column headerValue="Assigned Date"> 
+                         <apex:outputText value="{!c.CreatedDate}" />
+                     </apex:column>
+                     
+                 </apex:pageBlockTable>
+                
+                 <apex:pageBlockSectionItem />
+            
+            
+             </apex:pageBlockSection>
+             
+            <!-- CONTACT Previous and Next Buttons  -->
+            <apex:pageblockSection columns="4" >
+                <div  align="right" draggable="false" columns="2">
+                    <apex:commandButton value="Previous" rerender="tablesBlock" action="{!previous}" disabled="{!prevCont}">
+                        <apex:param name="listType" value="contact" />
+                    </apex:commandButton>
+                    <apex:commandButton value="Next" rerender="tablesBlock" action="{!next}" disabled="{!nextCont}">
+                        <apex:param name="listType" value="contact" />
+                    </apex:commandButton>
+                </div>                 
+            </apex:pageblockSection>
+            
+                
+                
+                
+            <!-- CASE INPUT - TITLES -->
+            
+            <apex:pageBlockSection columns="8" title="Case" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Case</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Status</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Assigned Agent ID</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Serial</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >First Name</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Last Name</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Phone</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem />
+                
+                
+                <!-- INPUT CASE -->
+                <apex:inputText value="{!caseIDsearch}" label="" size="12" />
+                <apex:inputField value="{!case1.Status}" label="" />
+                <apex:inputText value="{!agentIDsearch}" label="" size="15" />
+                <apex:inputText value="{!case1.Serial_No__c}" label="" size="15"/>
+                <apex:inputText value="{!caseContactFirstName}" label="" size="15"/>
+                <apex:inputText value="{!caseContactLastName}" label="" size="15"/>
+                <apex:inputText value="{!caseContactPhone}" label="" size="12"/>
+                
+                
+                <apex:commandButton value="Search" action="{!queryCases}" rerender="tablesBlock" > 
+                    <apex:param id="param2" name="firstTimeFlag" value="false" /> 
+                </apex:commandButton> 
+                
+                <apex:pageBlockSectionItem />
+            </apex:pageBlockSection>
+            
+            <!-- CASE TABLE  -->
+            <apex:pageBlockSection columns="1" id="caseSection">
+                <apex:pageBlockTable value="{!caseList}" var="c" title="Cases"> 
+                    <apex:column headerValue="Case ID">
+                        <apex:outputLink value="/{!c.ID}">
+                            <apex:outputText value="{!c.caseNumber}"/>
+                        </apex:outputLink>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Serial No"> 
+                        <apex:outputText value="{!c.Serial_No__c}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="First Name"> 
+                        <apex:outputText value="{!c.Contact.FirstName}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Last Name"> 
+                        <apex:outputText value="{!c.Contact.LastName}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Phone"> 
+                        <apex:outputText value="{!c.Contact.phone}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="SR"> 
+                        <apex:outputText value="{!c.Service_Request_Count__c}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Assigned Agent"> 
+                        <apex:outputText value="{!c.Owner.Name}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Assigned Date"> 
+                        <apex:outputText value="{!c.CreatedDate}" />
+                    </apex:column>
+                    
+                </apex:pageBlockTable>
+                <apex:pageBlockSectionItem />
+            </apex:pageBlockSection>
+            <!-- CASE Buttons Previous and Next -->
+            <apex:pageblockSection columns="4" >
+                <div  align="right" draggable="false" columns="2">
+                    <apex:commandButton value="Previous" rerender="tablesBlock" action="{!previous}" disabled="{!prevCase}">
+                        <apex:param name="listType" value="case" />
+                    </apex:commandButton>
+                    <apex:commandButton value="Next" rerender="tablesBlock" action="{!next}" disabled="{!nextCase}">
+                        <apex:param name="listType" value="case" />
+                    </apex:commandButton>
+                </div>                 
+            </apex:pageblockSection>
+            
+            
+            
+            <apex:pageBlockSection columns="10" title="Service Request" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >SR No</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Status</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Error Code</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Created By</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Serial</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Store</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >First Name</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Last Name</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Phone</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem />
+                
+                <apex:inputText value="{!srIDsearch}" label="" size="12" />
+                <apex:inputField value="{!case2.Status}" label="" />
+                <apex:inputText value="{!srErrorCodeSearch}" label="" size="12" />
+                <apex:inputText value="{!srCreatedByNameSearch}" label="" size="15"/>
+                <apex:inputText value="{!srSerialNoSearch}" label="" size="15"/>
+                <apex:inputText value="{!srStoreSearch}" label="" size="15"/>
+                <apex:inputText value="{!srFirstNameSearch}" label="" size="15"/>
+                <apex:inputText value="{!srLastNameSearch}" label="" size="15"/>
+                <apex:inputText value="{!srPhoneSearch}" label="" size="12"/>
+                
+                
+                <apex:commandButton value="Search" action="{!querySR}" rerender="tablesBlock" > 
+                    <apex:param id="param2" name="firstTimeFlag" value="false" /> 
+                </apex:commandButton>
+                
+                <apex:pageBlockSectionItem />
+            </apex:pageBlockSection>
+            
+            
+            <!-- SERVICE REQUEST TABLE -->
+            <apex:pageBlockSection columns="1" id="srSection" >
+                <apex:pageBlockTable value="{!srList1}" var="sr" title="SR"> 
+                    
+                    <apex:column headerValue="Case ID">
+                        <apex:outputLink value="/{!sr.Case__r.ID}">
+                            <apex:outputText value="{!sr.Case__r.caseNumber}"/>
+                        </apex:outputLink>
+                    </apex:column>
+                    
+                    <apex:column headerValue="SR ID">
+                        <apex:outputLink value="/{!sr.ID}">
+                            <apex:outputText value="{!sr.Voogle_SRID__c}"/>
+                        </apex:outputLink>
+                    </apex:column>
+                    
+                    <apex:column headerValue="Status"> 
+                        <apex:outputText value="{!sr.Case__r.status}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Model"> 
+                        <apex:outputText value="{!sr.Case__r.Product_Model_Number__c}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Serial Number"> 
+                        <apex:outputText value="{!sr.SerialNumber__c}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Customer"> 
+                        <apex:outputText value="{!sr.case__r.Contact.Name}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Cr. Date"> 
+                        <apex:outputText value="{!sr.CreatedDate}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="App Date"> 
+                        <apex:outputText value="{!sr.Voogle_ApproveDate__c}" />
+                    </apex:column>   
+                </apex:pageBlockTable>
+                <apex:pageBlockSectionItem />
+            </apex:pageBlockSection>
+            
+             <!-- SERVICE REQUEST Buttons Previous and Next -->
+            <apex:pageblockSection columns="4" >
+                <div  align="right" draggable="false" columns="2">
+                    <apex:commandButton value="Previous" rerender="tablesBlock" action="{!previous}" disabled="{!prevSR}">
+                        <apex:param name="listType" value="sr" />
+                    </apex:commandButton>
+                    <apex:commandButton value="Next" rerender="tablesBlock" action="{!next}" disabled="{!nextSR}">
+                        <apex:param name="listType" value="sr" />
+                    </apex:commandButton>
+                </div>                 
+            </apex:pageblockSection>
+            
+            
+            
+            
+            
+            <!-- SERVICE REQUEST - DATE RANGE SEARCH -->
+            <apex:pageBlockSection columns="9" title="Service Request - Date Range Search" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >SR No</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >SR Type</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel > Status</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Service Provider</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Start Date</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >End Date</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Created By</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Cust. Type</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem />
+                
+                <apex:inputText value="{!sr2IDsearch}" label="" size="12" />
+                <apex:inputField value="{!srType1.SRType__c}" label="" />
+                <apex:inputField value="{!case3.Status}" label="" />
+                <apex:inputText value="{!sr2ServiceProvSearch}" label="" />
+                <apex:inputField value="{!sr2.Voogle_ApproveDate__c}" label="" />
+                <apex:inputField value="{!sr2.Voogle_CloseDate__c}" label="" />
+                <apex:inputText value="{!sr2CreatedBySearch}" label="" size="15"/>
+                <apex:inputField value="{!contact2.Customer_Type__c}" label=""/>
+                 
+                  
+                <apex:commandButton value="Search" action="{!querySRDateRange}" rerender="tablesBlock" > 
+                    <apex:param id="param2" name="firstTimeFlag" value="false" /> 
+                </apex:commandButton> 
+                
+                
+                <apex:pageBlockSectionItem />
+            </apex:pageBlockSection>
+            
+            
+            <!-- SERVICE REQUEST TABLE DATE RANGE -->
+             
+            <apex:pageBlockSection columns="1" id="srDateSection">
+                <apex:pageBlockTable value="{!srList2}" var="sr" title="SR"> 
+                    
+                    <apex:column headerValue="SR ID">
+                        <apex:outputLink value="/{!sr.ID}">
+                            <apex:outputText value="{!sr.Voogle_SRID__c}"/>
+                        </apex:outputLink>
+                    </apex:column>
+                    
+                    <apex:column headerValue="SR Type"> 
+                        <apex:outputText value="{!sr.SRType__c}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Status"> 
+                        <apex:outputText value="{!sr.Case__r.status}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Service Provider"> 
+                        <apex:outputText value="{!sr.Service_Provider__r.ServiceProviderName__c}" />
+                    </apex:column>   
+                    
+                    <apex:column headerValue="Serial Number"> 
+                        <apex:outputText value="{!sr.SerialNumber__c}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Customer"> 
+                        <apex:outputText value="{!sr.case__r.Contact.Name}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Customer Type"> 
+                        <apex:outputText value="{!sr.case__r.Contact.Customer_Type__c}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Created Date"> 
+                        <apex:outputText value="{!sr.CreatedDate}" />
+                    </apex:column>
+                    
+                    <apex:column headerValue="Created By"> 
+                        <apex:outputText value="{!sr.CreatedBy.Name}" />
+                    </apex:column>
+                    
+                </apex:pageBlockTable>
+                <apex:pageBlockSectionItem />
+            </apex:pageBlockSection>
+            
+            <!-- SR DATE RANGE Buttons Previous and Next -->
+            <apex:pageblockSection columns="4" >
+                <div  align="right" draggable="false" columns="2">
+                    <apex:commandButton value="Previous" rerender="tablesBlock" action="{!previous}" disabled="{!prevSR2}">
+                        <apex:param name="listType" value="sr2" />
+                    </apex:commandButton>
+                    <apex:commandButton value="Next" rerender="tablesBlock" action="{!next}" disabled="{!nextSR2}">
+                        <apex:param name="listType" value="sr2" />
+                    </apex:commandButton>
+                </div>                 
+            </apex:pageblockSection>
+            
+            
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

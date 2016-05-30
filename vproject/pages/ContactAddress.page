@@ -1,0 +1,14 @@
+<apex:page standardController="Contact">
+<apex:pagemessages />
+    <apex:form >
+        <apex:pageBlock title="Contact Address" mode="edit">
+            <apex:pageblockButtons >
+                <apex:commandButton value="Save" action="{!Save}"/>
+                <apex:commandButton value="Cancel" action="{!Cancel}"/>
+            </apex:pageblockButtons>
+            <apex:pageBlockSection title="Customer Address Finder">
+                <pca:AddressFinder label="Contact" record="{!Contact}" address="ContactAddress" />     
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

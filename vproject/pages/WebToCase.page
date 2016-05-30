@@ -1,0 +1,76 @@
+<apex:page sidebar="false" title="Article List" controller="vfKeywordSearchController" showHeader="false" cache="false">
+ <style>
+  td{
+  vertical-align : top;   
+  text-align: left;
+  }
+ </style>
+ 
+ <script type="text/javascript">
+if (!window._laq) { window._laq = []; }
+window._laq.push(function(){liveagent.showWhenOnline('5731a000000Gqp3', document.getElementById('liveagent_button_online_5731a000000Gqp3'));
+liveagent.showWhenOffline('5731a000000Gqp3', document.getElementById('liveagent_button_offline_5731a000000Gqp3'));
+});</script>
+
+
+
+<script type='text/javascript' src='https://c.la4-c2-was.salesforceliveagent.com/content/g/js/34.0/deployment.js'></script>
+<script type='text/javascript'>
+liveagent.init('https://d.la4-c2-was.salesforceliveagent.com/chat', '5721a000000Gqai', '00D1a000000KFTF');
+</script>
+
+ 
+ <apex:form >
+ <apex:pageBlock title="Thank you for choosing VIZIO!" rendered="{!NOT(showList)}">
+   <apex:outputlabel >What can we help you with?(i.e.No sound)</apex:outputlabel> <div/>
+   <apex:inputText value="{!searchstring}" id="theSearchstring" maxlength="100" size="110"/> &nbsp;
+   <!--  <apex:commandButton value="Go" id="submitButton" style="width:30" reRender="theSearchResults" /> -->
+    <apex:commandButton value="Next" id="submitButton" style="width:30" Action="{!searchArticle}" />
+  </apex:pageBlock>  
+  <apex:messages />
+  <apex:pageBlock title="Thank you for choosing VIZIO!" rendered="{!showList}"> 
+  
+  <apex:panelGroup id="theSearchResults" >
+   <apex:panelGrid width="100%">
+    <table width="100%">
+     <tr>
+      <th width="40%">Articles</th>
+       <th width="5%">&nbsp;</th>  
+      <th width="55%">Summary</th>
+     </tr>
+    </table>
+ <knowledge:articleList articleVar="article" pageNumber="{!currentPageNumber}" Keyword="{!searchstring}" hasMoreVar="false" pageSize="10">
+    <table  width="100%">
+     <tr>
+      <td width="40%">
+       <apex:outputLink target="_blank" value="{!URLFOR($Action.KnowledgeArticle.View, article.id,['popup' = 'true'])}">{!article.title}</apex:outputLink>
+      </td>
+        <td width="5%">&nbsp;</td> 
+      <td width="55%"><apex:outputText >{!article.abstract}</apex:outputText></td>
+     </tr>
+    </table>
+    </knowledge:articleList>
+   </apex:panelGrid> 
+    
+   <div/> 
+   <p/>
+   <apex:panelGrid columns="2" > 
+               
+            
+ <!--    <apex:commandButton action="{!previous}" value="Previous Page" style="{!IF(prevRequired = true,'display:block','display:none')}" reRender="theSearchResults"/> 
+   <apex:commandButton action="{!next}" value="Next Page"  style="{!IF(nextRequired = true,'display:block','display:none')}" reRender="theSearchResults"/> -->
+    
+    <apex:commandButton action="{!previous}" value="Previous Page" style="{!IF(prevRequired = true,'display:block','display:none')}" /> 
+   <apex:commandButton action="{!next}" value="Next Page"  style="{!IF(nextRequired = true,'display:block','display:none')}" />  
+ </apex:panelGrid>
+ <apex:panelGrid columns="2" > 
+     <apex:commandLink value="Back" action="{!backSearch}"/> 
+              
+ <a id="WebToCase" href="https://vizio.force.com/s/web2case">Submit Question</a>
+     
+</apex:panelGrid>
+ 
+  </apex:panelGroup>
+  </apex:pageBlock>
+ </apex:form>
+</apex:page>

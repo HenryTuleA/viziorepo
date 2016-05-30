@@ -1,0 +1,88 @@
+<apex:page controller="Vizio_BrainTreeClass">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://js.braintreegateway.com/js/braintree-2.22.2.min.js"></script>
+<apex:pageMessages />
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Make a new transaction</h1>
+  This is your new Page
+  <!-- End Default Content REMOVE THIS -->
+  <p>
+    <form id="checkout" method="post" action="">
+      Amount $ <input type="text" name="amount" value="2.34" />
+      Card number: <input data-braintree-name="number" value="4111111111111111" />
+      Expiration Date (MM/YY): <input data-braintree-name="expiration_date" value="10/20"  />
+      CVV: <input data-braintree-name="cvv"  value="020" />
+       <input type="submit" id="submit" value="Pay checkout" />
+    </form>
+  </p>
+  <!--
+  <form action="" id="my-form" method="post">
+      <label for="a">Amount</label>
+      <div id="amount"> 
+          <input type="text" name="amount" value="400" id="amount" />
+      </div>
+      
+      <label for="card-number">Card Number</label>
+      <div id="card-number"> 
+          <input type="text" name="cardNumber" value="4111111111111111" id="cardNumber" />
+      </div>
+
+      <label for="cvv">CVV</label>
+      <div id="cvv">
+          <input type="text" name="CVV" value="020" id="cv-v" />
+       </div>
+
+      <label for="expiration-date">Expiration Date</label>
+      <div id="expiration-date">
+          <input type="text" name="ExpirDate" value="10/20" id="expirDate" />
+       </div>
+
+      <input type="submit" value="Pay" id="btn_submit"/>
+  </form>
+  -->
+  <apex:form >
+        <apex:actionFunction name="backtoParent" action="{!sendNonceToken}" rerender="view">
+             <apex:param id="id1" name="myNonce" value=""/>     
+             <apex:param id="id2" name="myOrderId" value=""/>
+        </apex:actionFunction>
+    </apex:form>   
+ 
+ <script>
+         var clientToken ="{!cardToken}";
+         
+         $("#checkout").click( function(event){
+              var amount     =  $("#amount").val();
+              var cvv        =  $("#cv-v").val();
+              var expirMonth =  $("#expirMonth").val();
+              var expirYear  =  $("#expirYear").val();
+              var expirDate  =  $("#expirDate").val();
+              var cardNumber =  $("#cardNumber").val();
+          
+              //alert('amount ='+ amount + '  cardNumber ' + cardNumber + '  cvv = ' + cvv + '  expirMonth = ' + expirMonth + '  expirYear = ' + expirYear + '  clientToken = ' + clientToken);
+            
+             // alert('amount ='+ amount + '  cardNumber ' + cardNumber + '  cvv = ' + cvv + '  expirDate = ' + expirDate + '  clientToken = ' + clientToken);
+              console.log('Before BTree');
+              braintree.setup(
+                      clientToken, 
+                      'custom', 
+                    { 
+                      id:"checkout", 
+                  
+                      onPaymentMethodReceived: function (payload) {
+                          alert('onPaymentMethodReceived');
+                          console.log(payload.nonce);
+                          alert('onPaymentMethodReceived payload.nonce = ' + payload.nonce +  '   payload.type = ' + payload.type + '  payload.details = ' + payload.details); 
+                          var idval = '0000636'; 
+                          backtoParent(payload.nonce, idval);
+                      },
+                      onError: function(payload){
+                         alert('onError');
+                         console.log(payload.message);
+                         alert('ERROR   payload.type = ' + payload.type + '  payload.message = ' + payload.message); 
+                      }
+                    });
+              console.log('After BTree');
+                  
+         });          
+  </script>
+</apex:page>

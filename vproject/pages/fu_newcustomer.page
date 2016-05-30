@@ -1,0 +1,22 @@
+<apex:page standardController="Contact">
+<apex:pagemessages />
+    <apex:form >
+        <apex:pageBlock title="Customer Information Summary">
+            <apex:pageblockButtons >
+                <apex:commandButton value="Save" action="{!Save}"/>
+                <apex:commandButton value="Cancel" action="{!Cancel}"/>
+            </apex:pageblockButtons>
+            <apex:pageBlockSection columns="3" showHeader="true" title="Customer Contact Info">
+                <apex:inputField value="{!Contact.FirstName}" required="true" />
+                <apex:inputField value="{!Contact.Phone}" /> 
+                <apex:inputField value="{! Contact.OtherPhone} " /> 
+                <apex:inputField value="{!Contact.Email}" />
+                <apex:inputField value="{!Contact.Fax}" />
+                <apex:inputField value="{!Contact.Extension__c}" />
+             </apex:pageBlockSection>
+            <apex:pageBlockSection title="Customer Address Info">
+                <pca:AddressFinder label="Contact" record="{!Contact}" address="ContactMailing" />     
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,18 @@
+<apex:page action="{! if(Warranty_Claim_Product__c.Warranty_Claim__r.zRecord_Lock__c == true, null, urlFor($Action.Warranty_Claim_Product__c.Edit, $CurrentPage.Parameters.id, [retURL=$CurrentPage.Parameters.retUrl], true)) }" standardController="Warranty_Claim_Product__c">
+    <apex:form >
+        <table cellspacing="10">
+            <tr>
+                <td><span style="font-weight: bold; font-size: 12pt;">Record Locked</span></td>
+            </tr>
+            <tr>
+                <td>The record you are trying to edit has been locked. Please contact your administrator if access is necessary.</td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="display:none;"><apex:outputText value="{!Warranty_Claim_Product__c.Warranty_Claim__r.zRecord_Lock__c}"/></div>
+                    Click <apex:commandLink action="{!cancel}" immediate="true" value="here"/> to return to the previous page.
+                </td>
+            </tr>
+        </table>
+    </apex:form>
+</apex:page>

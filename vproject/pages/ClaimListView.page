@@ -1,0 +1,3 @@
+<apex:page tabStyle="Claim__c">
+    <apex:enhancedList type="Claim__c" height="600" rowsPerPage="25" id="ClaimListView" />
+</apex:page>

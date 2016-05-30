@@ -1,0 +1,7 @@
+<apex:page standardController="Claim__c" extensions="ErrorPageController">
+    <apex:form >
+        <apex:pageMessages id="message"/>
+        <apex:commandButton value="Cancel" action="{!cancelButton}"/>
+    </apex:form>
+    
+</apex:page>

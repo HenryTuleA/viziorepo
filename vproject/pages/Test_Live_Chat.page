@@ -1,0 +1,81 @@
+<apex:page showHeader="false"> 
+<!-- This script takes the endpoint URL parameter passed from the deployment 
+  page and makes it the action for the form -->
+
+
+
+<script type="text/javascript">
+  &nbsp;&nbsp;&nbsp;(function() { 
+     function handlePageLoad() {
+       var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+       document.getElementById('prechatForm').setAttribute('action',
+       decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+     } if (window.addEventListener) {
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;window.addEventListener('load', handlePageLoad, false);
+   } else { window.attachEvent('onload', handlePageLoad, false);
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;}})(); 
+</script>
+<h1>Pre-chat Form</h1> 
+<form method='post' id='prechatForm'> 
+      First name: <input type='text' name='liveagent.prechat:FirstNameDetail'
+        id='customField1' /><br />
+      Last name: <input type='text' name='liveagent.prechat:LastNameDetail'
+        id='customField2' /><br />
+      Department: <select name="liveagent.prechat.buttons"> 
+          <!-- Values are LiveChatButton IDs. -->
+          <option value="573a00000000001">Customer Service</option> 
+          <option value="573a00000000002">Technical Support</option> 
+          <option value="573a00000000001,573a00000000002">Customer Service if online, 
+          otherwise Technical Support</option> 
+      </select><br /> 
+
+      <!-- Map liveagent.prechat:FirstNameDetail and liveagent.prechat:LastNameDetail
+        custom detail to Contact's field FirstName and LastName -->
+      <input type="hidden" name="liveagent.prechat.findorcreate.map:Contact"
+        value="FirstName,FirstNameDetail;LastName,LastNameDetail" />
+      
+      <!-- Specify to query for a matching Contact records FirstName field based on
+        the value of FirstName -->
+      <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Contact"
+        value="FirstName,true" />
+
+      <!-- Return results only if there is an exact match of FirstName -->
+      <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Contact"
+        value="FirstName,true" />
+
+      <!-- If no match in search, create a new Contact record with the mapped value
+        of firstname and last name -->
+      <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Contact"
+        value="FirstName,true;LastName,true" />
+
+      <!-- If a new Contact record has been created, open it as a subtab -->
+      <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Contact"
+        value="true" />
+
+      <!-- Save the Contact id to transcript's field ContactId -->
+      <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Contact"
+        value="ContactId" />
+
+      <input type='submit' value='Request Chat' id='prechat_submit'/> 
+      
+<style type="text/css"> 
+p {font-weight: bolder } 
+</style> 
+</form> 
+<br/>
+      <a id="liveagent_button_online_5731a000000Gqp3" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('5731a000000Gqp3')">Online</a>
+<div id="liveagent_button_offline_5731a000000Gqp3" style="display: none;">Offline</div>
+
+<script type="text/javascript">
+if (!window._laq) { window._laq = []; }
+window._laq.push(function(){liveagent.showWhenOnline('5731a000000Gqp3', document.getElementById('liveagent_button_online_5731a000000Gqp3'));
+liveagent.showWhenOffline('5731a000000Gqp3', document.getElementById('liveagent_button_offline_5731a000000Gqp3'));
+});</script>
+
+<script type='text/javascript' src='https://c.la4-c2-was.salesforceliveagent.com/content/g/js/34.0/deployment.js'></script>
+<script type='text/javascript'>
+liveagent.init('https://d.la4-c2-was.salesforceliveagent.com/chat', '5721a000000Gqai', '00D1a000000KFTF');
+</script>
+
+
+</apex:page>

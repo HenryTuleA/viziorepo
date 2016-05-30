@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>36.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>&lt;form id=&quot;checkout&quot; method=&quot;post&quot; action=&quot;result/&quot;&gt;
+  Card number: &lt;input data-braintree-name=&quot;number&quot;&gt;
+  Expiration Date (MM/YY): &lt;input data-braintree-name=&quot;expiration_date&quot;&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;Pay&quot;&gt;
+&lt;/form&gt;</description>
+    <label>brainTree2</label>
+</ApexPage>

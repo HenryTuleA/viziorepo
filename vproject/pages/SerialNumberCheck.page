@@ -1,0 +1,3 @@
+<apex:page controller="SerialNumberCheck" showHeader="false" cache="true" expires="900" action="{!submit}"> 
+
+</apex:page>

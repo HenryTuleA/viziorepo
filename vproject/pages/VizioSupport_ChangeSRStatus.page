@@ -1,0 +1,28 @@
+<apex:page standardController="Service_Request__c" extensions="VizioSupport_ChangeSRStatus" showHeader="false"  cache="false">
+  
+   
+<apex:form >
+
+<apex:pageBlock title="Change Status" mode="edit">
+    <apex:pageBlockSection columns="1">
+        <apex:pageBlockSectionItem >
+        <apex:outputText value="Status"/>
+        <apex:selectList id="status" size="1" value="{!selectedStatus}" >
+			  <apex:selectOptions value="{!StatusList}"/>
+	    </apex:selectList>
+	    </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+        
+        <apex:inputField id="Reason" value="{!srList[0].StatusReason__c}" required="true" style="width:300px" label="Status Reason"/>   <!--Case Owner-->
+        <apex:pageBlockSectionItem ></apex:pageBlockSectionItem>
+        
+     </apex:pageBlockSection>          
+        
+           <apex:pageblockbuttons location="Bottom">
+             <apex:commandbutton action="{!Submit}" value="Execute"></apex:commandbutton> <!--Save button calling UpdateStatus method-->
+             <apex:commandbutton action="{!cancel}" value="Go Back"></apex:commandbutton>    <!--Cancel button-->
+           </apex:pageblockbuttons>
+                     
+ </apex:pageBlock>
+ </apex:form> 
+</apex:page>

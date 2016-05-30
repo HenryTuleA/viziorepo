@@ -1,0 +1,238 @@
+<apex:page controller="VizioSupport_ServiceReq_PDFController" showHeader="false" >
+    <!-- contentType="application/pdf#Layer42_Service_Order_SR.pdf" renderas="pdf">
+            contentType="application/pdf#Layer42_Service_Order_{!mycontract.name}.pdf" renderas="pdf" -->
+ 
+<div style="page-break-after:always;"> 
+    <table width="100%">
+        <tr>
+            <td>
+                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                    <apex:param value="{!today()}" /> 
+                </apex:outputText>
+            </td>
+            
+            <td align="center" >
+                <apex:outputText value="Service Request Detail" />
+            </td>
+        </tr>
+    </table>
+    
+    <br />
+    
+    <table width="100%">
+        <tr>
+            <td>
+                <apex:image value="{!$Resource.clear_logo}"  />
+            </td>
+            <td>
+                <apex:outputText value="Return Authorization" style="font-size:28px;font-weight:bold;" />
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+            
+            </td>
+            <td>
+                <table width="40%">
+                    <tr>
+                        <td>
+                            <apex:outputText value="Date" style="font-size:14px;font-weight:bold;" />
+                        </td>
+                        <td>
+                            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                <apex:param value="{!sr1.CreatedDate}" /> 
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="Return Auth No. " style="font-size:14px;font-weight:bold;" />
+                        </td>
+                        <td>
+                            {!sr1.Service_Request_ID__c}  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="Return Reason " style="font-size:14px;font-weight:bold;" />
+                        </td>
+                        <td>
+                             
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="Serial# " style="font-size:14px;font-weight:bold;" />
+                        </td>
+                        <td>
+                            {!sr1.SerialNumber__c} 
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <tr> 
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!vizioInfo.Name}" style="font-size:14px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!vizioInfo.Corporate_Info__c}" style="font-size:14px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!vizioInfo.Corporate_Info_2__c}" style="font-size:14px;" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <br />
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!vizioInfo.address__c}" style="font-size:14px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!vizioInfo.city__c} {!vizioInfo.State__c} {!vizioInfo.zipcode__c}" style="font-size:14px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="Tel: {!vizioInfo.phone__c}" style="font-size:14px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="Fax: {!vizioInfo.fax__c}" style="font-size:14px;" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        
+        
+            <tr>
+            
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <apex:outputText value="Customer Information: " style="font-size:14px;font-weight:bold;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Case__r.Contact.Phone}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Case__r.Contact.Name}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Case__r.Contact.MailingStreet}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Case__r.Contact.MailingCity} {!sr1.Case__r.Contact.MailingStateCode} {!sr1.Case__r.Contact.MailingPostalCode}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Case__r.Contact.MailingCountryCode}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            
+            
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <apex:outputText value="Return to: " style="font-size:14px;font-weight:bold;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Service_Provider__r.ServiceProviderId__r.Phone}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Service_Provider__r.ServiceProviderId__r.Name}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Service_Provider__r.ServiceProviderId__r.MailingStreet}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!sr1.Service_Provider__r.ServiceProviderId__r.MailingCity} {!sr1.Service_Provider__r.ServiceProviderId__r.MailingStateCode} {!sr1.Service_Provider__r.ServiceProviderId__r.MailingPostalCode}" style="font-size:14px;color:blue" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+    </table>
+    
+
+
+    <br />  
+    <apex:dataTable value="{!lineItemsList}" var="li" id="theTable" rowClasses="odd,even" styleClass="tableClass"
+        width="60%" cellpadding="4px" border="1px">
+        <!-- <apex:facet name="caption">table caption</apex:facet>
+        <apex:facet name="header">table header</apex:facet>
+        <apex:facet name="footer">table footer</apex:facet> -->
+        <apex:column >
+            <apex:facet name="header">Type</apex:facet>
+            <!--<apex:facet name="footer">column footer</apex:facet>-->
+            <apex:outputText value="{!li.PartType__c}"/>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Item</apex:facet>
+            <!--  <apex:facet name="footer">column footer</apex:facet>-->
+            <apex:outputText value="{!li.SKU__c}"/>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Description</apex:facet>
+            <!--  <apex:facet name="footer">column footer</apex:facet>-->
+            <apex:outputText value="{!li.Product__r.Description}"/>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Quantity</apex:facet>
+            <!--  <apex:facet name="footer">column footer</apex:facet>-->
+            <apex:outputText value="{!li.Quantity__c}"/>
+        </apex:column>
+        <apex:column >
+            <apex:facet name="header">Notes</apex:facet>
+            <!--  <apex:facet name="footer">column footer</apex:facet>-->
+            <apex:outputText value="{!li.Notes__c}"/>
+        </apex:column>
+    </apex:dataTable>
+    
+    
+</div>
+
+</apex:page>

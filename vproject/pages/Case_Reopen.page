@@ -1,0 +1,29 @@
+<apex:page standardController="Case" extensions="CaseReopen">
+
+<apex:form >
+
+<apex:pageBlock title="Case Reopen" mode="edit">
+    <apex:pageBlockSection >
+         <!--select list for case status, only Work in Progress--> 
+          <apex:selectList value="{!Case_Status}" multiselect="false" size="1">
+             <apex:outputLabel >Case Status</apex:outputLabel>
+             <apex:selectOption itemValue="Work in Progress" itemLabel="Work in Progress"/>
+          </apex:selectList>
+     </apex:pageBlockSection>   
+        
+        <!--Save and cancel button-->
+           <apex:pageblockbuttons >
+             <apex:commandbutton action="{!UpdateStatus}" value="Save"></apex:commandbutton> <!--Save button calling UpdateStatus method-->
+             <apex:commandbutton action="{!cancel}" value="Cancel"></apex:commandbutton>    <!--Cancel button-->
+           </apex:pageblockbuttons>
+         
+      
+        
+        
+ </apex:pageBlock>
+ 
+
+ </apex:form>
+ 
+ 
+</apex:page>

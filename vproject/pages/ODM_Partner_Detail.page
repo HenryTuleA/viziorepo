@@ -1,0 +1,20 @@
+<apex:page StandardController="ODM_Partner__c" id="thePage">
+    <apex:sectionHeader title="ODM Partner Detail" />
+    <apex:form >
+        <apex:pageblock id="pb" title="ODM Partner Detail" >
+            <apex:pageBlockButtons location="both">
+                <apex:commandbutton value="Edit" action="{!Edit}"/>
+            </apex:pageBlockButtons>
+       
+            <apex:pageBlockSection title="Information" columns="2" collapsible="false">
+            
+                <apex:outputField value="{!ODM_Partner__c.VASP_Partner__c}" />
+                <apex:outputField value="{!ODM_Partner__c.ODM_Partner__c}" />
+                <apex:outputField value="{!ODM_Partner__c.Mark_Up_Percentage__c}" />
+                <apex:outputField value="{!ODM_Partner__c.Margin_Percentage__c}" />
+                <apex:outputField value="{!ODM_Partner__c.Freight_Markup__c}" />
+
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

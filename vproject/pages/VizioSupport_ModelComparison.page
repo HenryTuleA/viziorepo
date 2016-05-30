@@ -1,0 +1,47 @@
+<apex:page controller="VizioSupport_ModelComparisonController" >
+	<apex:form >
+
+		<apex:pageBlock >
+		
+		
+			<apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText value="Model Comparison " style="font-size:10.5pt;font-weight:bold"/> 
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            
+            <br />
+            <br />
+            
+             
+            <table class="list"  border="0" cellpadding="5" cellspacing="0">
+				<tr class="headerRow  ">
+      				<apex:repeat value="{!headWrap.values}" var="heading">
+        				<th class="headerRow ">
+           					{!heading}
+        				</th>
+      				</apex:repeat>
+    			</tr>
+			   
+				<apex:repeat value="{!rowsTable}" var="row">
+			       <tr>
+			         <apex:repeat value="{!row.values}" var="value">
+			           <td>
+			             {!value}
+			           </td>
+			         </apex:repeat>
+			       </tr>
+			    </apex:repeat>
+			</table> 
+             
+           	<apex:pageBlockButtons >
+				<apex:commandButton value="Go Back" action="{!goBack}"/>
+        	</apex:pageBlockButtons>
+		
+		</apex:pageBlock>
+		
+	</apex:form>
+</apex:page>

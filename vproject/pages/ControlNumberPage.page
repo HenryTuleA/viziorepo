@@ -1,0 +1,175 @@
+<apex:page extensions="SelectControlNumber" standardController="Claim__c">
+    
+    <style>
+        .displayNone { 
+            display:none; 
+        }
+        .displayBlock {
+            display:block;
+        }
+        .ui-autocomplete-loading { 
+            background: white url(/img/loading32.gif) right center no-repeat;
+            background-size:15px 15px; 
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css"/>
+    
+    <apex:outputpanel >
+        <apex:actionstatus id="entryStatus">
+            <apex:facet name="start">
+                <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 100%;opacity:0.65;width:100%;"> 
+                    <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                        <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                        <span class="waitingDescription">Please Wait...</span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputpanel>
+    
+    
+    <script type="text/javascript">
+        function checkAll(cb,cbid)
+        {
+            var inputElem = document.getElementsByTagName("input");                    
+            for(var i=0; i<inputElem.length; i++)
+            {                                                  
+                inputElem[i].checked = cb.checked;
+            }
+        }
+        
+        function noenter(e) {
+            
+            if (window.event) {                    
+                key = window.event.keyCode;     //IE               
+            } 
+            else {                    
+                key = e.which;     //firefox               
+            }          
+            if (key == 13) {
+                executeFind();         
+                return false;               
+            }
+            else {                    
+                return true;               
+            }          
+        }     
+    
+    </script>
+    
+  <apex:pageMessages id="message"/>
+  <apex:form id="show">
+  
+      <apex:outputPanel id="showErrorPage" rendered="{!errorPage}">
+          <apex:pageBlock >
+              <apex:pageBlockButtons location="bottom">
+                  <apex:commandButton value="Cancel" action="{!cancel}" />
+              </apex:pageBlockButtons>
+              
+          </apex:pageBlock>
+      </apex:outputPanel>
+      
+      <apex:outputPanel id="showControlNum" rendered="{!controlNumberPage}">
+          <apex:pageBlock id="pb">
+              <apex:pageBlockButtons >
+                  <apex:commandButton value="New Claim" action="{!goToClaimItemPage}" status="entryStatus" reRender="show,message"/>
+              </apex:pageBlockButtons>
+              
+              <apex:pageBlockSection columns="2" collapsible="false">
+                  <apex:outputLabel value="Search: " style="font-weight:bold">
+                      <apex:inputText id="searchId" value="{!keyword}" onkeypress="return noenter(event)" style="width:180px;">
+                          <apex:actionFunction name="executeFind" reRender="showControlNum,message" status="entryStatus" action="{!gosearch}"/>
+                      </apex:inputText>&nbsp;&nbsp;
+                      <apex:commandButton value="Go" action="{!goSearch}" status="entryStatus" reRender="showControlNum,message"/>
+                  </apex:outputLabel>
+              </apex:pageBlockSection>
+              
+              <apex:pageBlockTable value="{!WrapperList}" var="cn" id="ControlId">
+                  <apex:column headerValue="Select">
+                      <apex:inputCheckbox value="{!cn.isSelect}" id="checkedone"/>
+                  </apex:column>
+           
+                  <apex:column headerValue="Control #" value="{!cn.conNum.Control__c}"/>
+                  <apex:column headerValue="SKU" value="{!cn.conNum.SKU__c}"/>
+                  <apex:column headerValue="BSTC Amount" value="{!cn.conNum.BSTC_Amount__c}"/>
+                  <apex:column headerValue="PPSTC Amount" value="{!cn.conNum.PPSTC_Amount__c}"/>
+                  <apex:column headerValue="Start Date" value="{!cn.conNum.Event_Start_Date__c}">
+                      <apex:facet name="header">
+                          <apex:commandLink value="Start Date{!IF(sortExpression=='Event_Start_Date__c',IF(sortDirection='DESC','▼','▲'),'')}" action="{!clickLink}" reRender="showControlNum, message" status="entryStatus">
+                              <apex:param value="Event_Start_Date__c" name="column"  assignTo="{!sortExpression}"/>
+                          </apex:commandLink>
+                      </apex:facet>
+                  </apex:column>
+                  
+                  <apex:column headerValue="End Date" value="{!cn.conNum.Event_End_Date__c}">
+                      <apex:facet name="header">
+                          <apex:commandLink value="End Date{!IF(sortExpression=='Event_End_Date__c',IF(sortDirection='DESC','▼','▲'),'')}" action="{!clickLink}" reRender="showControlNum, message" status="entryStatus">
+                              <apex:param value="Event_End_Date__c" name="column"  assignTo="{!sortExpression}"/>
+                          </apex:commandLink>
+                      </apex:facet>
+                  </apex:column>
+              </apex:pageBlockTable>
+              
+              <apex:panelGrid >
+                  <apex:outputText >{!(pageNumber * showSize)+1-showSize}-{!IF((pageNumber * showSize)>noOfRecords, noOfRecords,(pageNumber * showSize))} of {!noOfRecords}</apex:outputText>
+                  <apex:outputPanel style="color:#4AA02C;font-weight:bold">
+                      <apex:actionStatus id="fetchStatus" startText="Fetching..." stopText=""/>
+                  </apex:outputPanel>
+              </apex:panelGrid>
+              <apex:panelGrid columns="7">
+                  <apex:commandButton status="fetchStatus" reRender="pb" value="|< First Page" action="{!first}" disabled="{!!hasPrevious}" title="First Page"/>
+                  <apex:commandButton status="fetchStatus" reRender="pb" value="< Previous Page" action="{!previous}" disabled="{!!hasPrevious}" title="Previous Page"/>
+                  <apex:commandButton status="fetchStatus" reRender="pb" value="Next Page >" action="{!next}" disabled="{!!hasNext}" title="Next Page"/>
+                  <apex:commandButton status="fetchStatus" reRender="pb" value="Last Page >|" action="{!last}" disabled="{!!hasNext}" title="Last Page"/>
+              </apex:panelGrid>
+          </apex:pageBlock>
+      </apex:outputPanel>   
+      
+      <apex:outputPanel id="showClaimItem" rendered="{!claimItemPage}">
+          <apex:pageBlock >
+              <apex:pageBlockButtons >
+                  <apex:commandButton value="Back" action="{!goBack}" status="entryStatus" reRender="show,message"/>
+                  <apex:commandButton value="Next" action="{!goNext}" status="entryStatus" reRender="show,message"/>
+                  <apex:commandButton value="Cancel" action="{!cancel}"/>
+              </apex:pageBlockButtons>
+              <apex:pageBlockSection columns="1" title="Claim Item" collapsible="false">
+                  <apex:selectList value="{!claimItemList[index].Claim_Type_del__c}" size="1">
+                      <apex:selectOptions value="{!claimTypeList[index]}"/>
+                  </apex:selectList>
+                  <apex:inputField value="{!claimItemList[index].Quantity_Claimed__c}"/>
+                  <apex:outputField value="{!selectControlNumList[index].Control__c}"/>
+                  <apex:outputField value="{!selectControlNumList[index].SKU__c}"/>
+                  <apex:outputField value="{!selectControlNumList[index].BSTC_Amount__c}"/>
+                  <apex:outputField value="{!selectControlNumList[index].PPSTC_Amount__c}"/>
+                  <apex:outputField value="{!selectControlNumList[index].Event_Start_Date__c}"/>
+                  <apex:outputField value="{!selectControlNumList[index].Event_End_Date__c}"/>
+                  
+              </apex:pageBlockSection>
+              
+          </apex:pageBlock>
+      </apex:outputPanel>
+      
+      <apex:outputPanel id="showClaim" rendered="{!claimPage}">
+          <apex:pageBlock >
+              <apex:pageBlockButtons >
+                  <apex:commandButton value="Save" action="{!save}"/>
+                  <apex:commandButton value="Cancel" action="{!cancel}"/>
+              </apex:pageBlockButtons>
+              <apex:pageBlockSection columns="1" title="Claim" collapsible="false">
+                  <apex:outputField value="{!claim.Account__c}" rendered="{!NOT(internalUser)}"/>
+                  <apex:inputField value="{!claim.Account__c}" rendered="{!internalUser}"/>
+                  <apex:outputField value="{!claim.Status__c}"/>
+                  <apex:inputField value="{!claim.Co_Op__c}"/>
+                  <apex:inputField value="{!claim.Claim_Start_Date__c}"/>
+                  <apex:inputField value="{!claim.Claim_End_Date__c}"/>
+                  
+              </apex:pageBlockSection>
+              
+          </apex:pageBlock>
+      </apex:outputPanel>  
+      
+  </apex:form>
+</apex:page>

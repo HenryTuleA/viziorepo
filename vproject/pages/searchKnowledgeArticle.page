@@ -1,0 +1,103 @@
+<apex:page controller="searchKnowledgeArticle" sidebar="false" title="Article List" showHeader="false" cache="false">
+<head><meta charset="UTF-8"/></head>
+ <style>
+  td{
+  vertical-align : top;   
+  text-align: left;
+  }
+ </style>
+ 
+ <!-- Chat part -->
+ <script type="text/javascript">
+if (!window._laq) { window._laq = []; }
+window._laq.push(function(){liveagent.showWhenOnline('5731a000000Gqp3', document.getElementById('liveagent_button_online_5731a000000Gqp3'));
+liveagent.showWhenOffline('5731a000000Gqp3', document.getElementById('liveagent_button_offline_5731a000000Gqp3'));
+});</script>
+
+
+
+<script type='text/javascript' src='https://c.la4-c2-was.salesforceliveagent.com/content/g/js/34.0/deployment.js'></script>
+<script type='text/javascript'>
+liveagent.init('https://d.la4-c2-was.salesforceliveagent.com/chat', '5721a000000Gqai', '00D1a000000KFTF');
+</script>
+<!-- End chat part -->
+
+<!-- JavaScript when click pagenumber -->
+<script>       
+    function myJavascriptFunc(number) {         
+        var clickPage = number;
+        paraFunction(clickPage);        
+    }  
+</script>  
+<!-- End -->
+
+<apex:messages />
+
+<apex:form >
+
+
+<!-- Search Field and Next(search) button -->
+   <apex:pageBlock rendered="{!NOT(showList)}">
+     <apex:outputtext value="Thank you for choosing VIZIO!" style="font-size: 20px; color: #AC3322; font-weight: bold"> </apex:outputtext> <div/>
+     <apex:outputText >&nbsp;</apex:outputText><div/>  
+     <apex:outputlabel >What can we help you with?(i.e.No sound)</apex:outputlabel> <div/>
+     <apex:inputText value="{!searchstring}" id="theSearchstring" maxlength="100" size="55"/> &nbsp;   
+     <apex:commandButton value="Next" id="submitButton" style="width:30" Action="{!searchArticle}" />
+  </apex:pageBlock>  
+
+<!-- actionFunction to pass value to the controller -->
+  <apex:actionFunction action="{!clickPageNum}" name="paraFunction" rerender="searchResult">
+    <apex:param name="clickPage" value="" assignTo="{!clickPage}"/>
+  </apex:actionFunction>
+
+<!-- Search Result & buttons & further assistance -->              
+  <apex:pageBlock rendered="{!showList}" >          
+  <!--   ///////////////////////////////  -->
+    <apex:outputtext value="Here are some suggested article(s)." style="font-size: 20px; color: #AC3322; font-weight: bold"></apex:outputtext> <div/>
+    <apex:outputText >&nbsp;</apex:outputText><div/>
+  
+      <apex:panelGroup id="theSearchResults" >
+
+        <apex:pageBlockTable value="{!Articles}" var="o" columnswidth="150px,250px" id="searchResult">  
+          <apex:column headerValue="Article Title">
+                
+                <!--  <apex:variable var="link" value="{!SUBSTITUTE(o.title, " ", "-")}" />   -->    
+                  <apex:outputLink target="_blank" value="https://vizio.force.com/s/article/{!URLENCODE(o.UrlName)}">{!o.title}</apex:outputLink> 
+                </apex:column>
+                
+                <apex:column value="{!o.Summary}"/>  
+         </apex:pageBlockTable>   
+    
+       <div/> 
+        <p/>
+        
+<!-- Page Button -->
+      <apex:panelGrid columns="2" > 
+        <apex:outputPanel >
+          <div style="text-align:center">
+            <apex:commandButton value="|<" action="{!setCon.first}" disabled="{!!setCon.hasPrevious}" title="Beginning" style="text-transform: capitalize;"/>
+            <apex:commandButton value="<Previous" action="{!setCon.previous}" disabled="{!!setCon.hasPrevious}" title="Previous" style="text-transform: capitalize;"/>
+            <apex:repeat value="{!allPageNumber}" var="num">
+              <apex:commandButton value="{!num}"   style="text-transform: capitalize;" onclick=" myJavascriptFunc('{!num}');return false;"/> 
+            </apex:repeat>
+            <apex:commandButton value="Next>" action="{!setCon.next}" disabled="{!!setCon.hasNext}" title="Next" style="text-transform: capitalize;"/>
+            <apex:commandButton value=">|" action="{!setCon.last}" disabled="{!!setCon.hasNext}" title="End" style="text-transform: capitalize;"/>               
+          </div>
+        </apex:outputPanel> 
+     </apex:panelGrid>
+     <div/> 
+     <p/>
+<!-- Further Assistance -->
+     <apex:panelGrid columns="1" > 
+       <apex:outputtext value="For Further Assistance:" style="font-size: 15px"> </apex:outputtext>   
+       <a id="liveagent_button_online_5731a000000Gqp3" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('5731a000000Gqp3')">Open a Chat with VIZIO Support</a><div/>
+       <div id="liveagent_button_offline_5731a000000Gqp3" style="display: none;">Chat is Available Monday-Friday 7AM-9PM CST; Sat &amp; Sun 9AM-6PM</div> 
+       <a  id="web2case" href="/apex/Web2Case?subject={!searchstring}">Send an Email to VIZIO Support</a><div/>
+       <a id="CallAgent" href="https://vizio.force.com/s/contact_hours">Call a VIZIO Support Agent</a><div/>
+     </apex:panelGrid>          
+    </apex:panelGroup>
+  </apex:pageBlock> 
+  
+
+ </apex:form>
+</apex:page>

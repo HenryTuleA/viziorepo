@@ -1,0 +1,312 @@
+<apex:page sidebar="false" title="Article List" controller="vfKeywordSearchController" showHeader="false" cache="true" expires="900">
+ <head><meta charset="UTF-8"/></head>
+ 
+ <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />
+<script>
+j$ = jQuery.noConflict();
+
+j$(document).ready(function() {
+
+    var time = parent.getHours_es();
+    var now = new Date();
+    var UTC_now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds() );
+    
+    var hours = Number(time.split(":")[0]); //ending business hours on weekday
+    var mins =  Number(time.split(":")[1]); //ending business hours on weekday
+    
+    /****/
+Date.prototype.stdTimezoneOffset = function() {
+    var jan = new Date(this.getFullYear(), 0, 1);
+    var jul = new Date(this.getFullYear(), 6, 1);
+    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+}
+
+Date.prototype.dst = function() {
+    return this.getTimezoneOffset() < this.stdTimezoneOffset();
+}
+
+/***/
+    var central_difference;     //to adjust central either DST or not
+    var d = new Date();
+    var central_time = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours()-5, d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds() );
+    
+        if(central_time.dst()){
+            central_difference = 5;
+        }
+
+        else{           
+            central_difference = 6;
+        }
+        
+     
+    
+  var hours_UTC = hours + central_difference;
+    
+    
+    var cancel_date =UTC_now.getDate();
+        if(UTC_now.getHours() >=0 && UTC_now.getHours() <=5){
+        cancel_date = UTC_now.getDate()-1;
+        }
+    
+ 
+    
+    var endtime_UTC = new Date(now.getUTCFullYear(), now.getUTCMonth(), cancel_date, hours_UTC, mins, 0, 0 );
+    
+    var cancelTime = new Date(now.getUTCFullYear(), now.getUTCMonth(), cancel_date, hours_UTC+1, mins, 0, 0 );
+    
+    
+    var time_difference = endtime_UTC - UTC_now;
+    
+    if( (cancelTime-UTC_now) > 0 ){
+    
+        
+            
+        
+            //if before 6
+        if(time_difference > 0 ){
+    
+            setTimeout(function(){   
+                    
+                    if(j$("#liveagent_button_offline_5731a000000GqsG").css('display') == 'none' ){
+                    
+                    
+                    
+                          setInterval(function(){
+    
+                                
+                                j$("#liveagent_button_online_5731a000000GqsG").unbind();
+                                j$("#liveagent_button_offline_5731a000000GqsG").unbind();
+                              
+                                j$("#liveagent_button_online_5731a000000GqsG").css('display', 'none');
+                                j$("#liveagent_button_offline_5731a000000GqsG").css('display', '');
+                              
+                              }, 1000); //setInterval ends
+                    }
+                }, time_difference);
+                
+                j$("#chat").css('display', 'inline-block');
+                
+            }
+            
+        else{
+            
+             if(j$("#liveagent_button_offline_5731a000000GqsG").css('display') == 'none' ){
+                  
+                          setInterval(function(){
+    
+                                
+                                j$("#liveagent_button_online_5731a000000GqsG").unbind();
+                                j$("#liveagent_button_offline_5731a000000GqsG").unbind();
+                              
+                                j$("#liveagent_button_online_5731a000000GqsG").css('display', 'none');
+                                j$("#liveagent_button_offline_5731a000000GqsG").css('display', '');
+                              
+                              j$("#chat").css('display', 'inline-block');
+                              }, 1000);
+                    }
+                    
+            
+        }
+        
+    }
+    
+    else{
+    j$("#chat").css('display', 'inline-block');
+    }
+ });
+                              
+                              
+</script>
+ 
+ <style>
+  td{
+  vertical-align : top;   
+  text-align: left;
+  }
+
+  a.button {
+  font-family:Arial, sans serif;  
+  color: #333;
+  margin: 2px;
+  padding: 2px 6px;
+  border: 1px solid #b5b5b5;
+  border-bottom-color: #7f7f7f;
+  background: #e8e8e9 url('/img/alohaSkin/btn_sprite.png') repeat-x right top;
+  font-weight: bold;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  text-decoration:none; 
+  font-size: 10.8px;
+  text-align:center;
+  line-height:16px;
+  display:inline-block;
+}
+a.button:hover {
+  text-decoration:none;
+  background-position:right -30px;
+  color:#333333;
+}
+
+a.btnDisabled {
+  font-family:Arial, sans serif;  
+  color: #909090;
+  margin: 2px;
+  padding: 2px 6px;
+  border: 1px solid #b5b5b5;
+  border-bottom-color: #7f7f7f;
+  background: #e8e8e9 url('/img/alohaSkin/btn_sprite.png') repeat-x right top;
+  font-weight: bold;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  text-decoration:none; 
+  font-size: 10.8px;
+  text-align:center;
+  line-height:16px;
+  display:inline-block;
+}
+a.btnDisabled:hover {
+  text-decoration:none;
+  font-family:Arial, sans serif;
+  border: 1px solid #b5b5b5;
+  border-bottom-color: #7f7f7f;
+  font-size: 10.8px;
+  color: #909090;
+  padding: 2px 6px;
+  cursor: default;
+  font-weight: bold;
+  background: #e8e8e9 url('/img/alohaSkin/btn_sprite.png') repeat-x right top;
+}
+
+#chat{
+display:none;
+}
+
+@media (max-width: 480px) {
+    .edit_title{
+     font-size:14px !important; 
+     display:block;
+     text-align:center;
+     margin: 0 0 10px;
+    }
+    
+    .logo_img{
+     display:block;
+     margin:0 auto 10px;
+    }
+    .searchInput {
+     width:100%; 
+     max-width:300px;
+     margin: 10px 0;
+    }
+    
+}
+
+ </style>
+ 
+ <!-- Chat part -->
+
+
+<script type="text/javascript">
+if (!window._laq) { window._laq = []; }
+window._laq.push(function(){liveagent.showWhenOnline('5731a000000GqsG', document.getElementById('liveagent_button_online_5731a000000GqsG'));
+liveagent.showWhenOffline('5731a000000GqsG', document.getElementById('liveagent_button_offline_5731a000000GqsG'));
+});</script>
+
+<script type='text/javascript' src='https://c.la4-c2-was.salesforceliveagent.com/content/g/js/34.0/deployment.js'></script>
+<script type='text/javascript'>
+liveagent.init('https://d.la4-c2-was.salesforceliveagent.com/chat', '5721a000000Gqai', '00D1a000000KFTF');
+</script>
+<!-- End chat part -->
+
+<apex:messages />
+ <apex:form >
+
+
+  
+  <!-- Search Field and Next(search) button -->
+    <apex:pageBlock rendered="{!NOT(showList)&&selectes_MX}">
+   <!--  <apex:pageBlock rendered="{!NOT(showList)}">-->
+    <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"  styleclass="logo_img"/> &nbsp;
+     <apex:outputtext value="¡Gracias por elegir VIZIO!" style="font-size: 20px; color: #AC3322; font-weight: bold" styleclass="edit_title"> </apex:outputtext> <div/>
+     <apex:outputText >&nbsp;</apex:outputText><div/>
+  
+     <apex:outputlabel >¿En qué podemos ayudarte? (por ejemplo, no hay sonido)</apex:outputlabel> <div/>
+     <apex:inputText value="{!searchstring}" id="theSearchstring" maxlength="80" size="40" styleclass="searchInput"/> &nbsp;
+   
+     <apex:commandButton value="Siguiente" id="submitButton" style="width:30" Action="{!searchArticle}" />
+  </apex:pageBlock>  
+  
+<!-- Search result list -->
+ <!--   <apex:pageBlock rendered="{!showList}"> -->
+    <apex:pageBlock rendered="{!showList&&selectes_MX}" > 
+  <apex:image url="{!$Resource.clear_logo}"  width="50" height="20"  styleclass="logo_img"/> &nbsp;
+    <apex:outputtext value="Aquí hay algunos artículos sugeridos." style="font-size: 20px; color: #AC3322; font-weight: bold" styleclass="edit_title"></apex:outputtext> <div/>
+    <apex:outputText >&nbsp;</apex:outputText><div/>
+  
+      <apex:panelGroup id="theSearchResults" >
+      <apex:outputPanel id="needRefresh">
+        <apex:panelGrid width="100%" >
+          <table width="100%">
+            <tr>
+              <th width="40%">Artículos</th>
+              <th width="5%">&nbsp;</th>  
+              <th width="55%">Resumen</th> 
+            </tr>
+          </table>
+          <knowledge:articleList articleVar="article" pageNumber="{!currentPageNumber}" Keyword="{!searchstring}" hasMoreVar="false" pageSize="10" language="{!selectLanguage}">
+            <table class="SearchResult"  width="100%">
+              <tr>
+                <td width="40%">  
+                 <!--   <apex:variable var="link" value="{!SUBSTITUTE(article.title, " ", "-")}" />   -->    
+                  <apex:outputLink target="_blank" value="/s/article/{!URLENCODE(article.UrlName)}"   >{!article.title}</apex:outputLink> 
+                </td>
+                <td width="5%">&nbsp;</td>
+                <td width="55%"><apex:outputText >{!article.abstract}</apex:outputText></td>
+             </tr>
+           </table>
+           <div/>
+         </knowledge:articleList>
+       </apex:panelGrid> 
+    
+       <div/> 
+        <p/>
+        
+<!-- Page Button -->
+      <apex:panelGrid columns="2" > 
+        <apex:outputpanel >
+          <apex:commandButton action="{!previous}" value="<<Anterior"  disabled="{!!prevRequired}" reRender="needRefresh"/> 
+          <apex:commandButton action="{!next}" value="Siguiente>>"   disabled="{!!nextRequired}" reRender="needRefresh"/>  
+        </apex:outputpanel>  
+     </apex:panelGrid>
+     </apex:outputPanel>
+     <div/> 
+        <p/>
+        
+<!-- Further Assistance -->
+     <apex:panelGrid columns="1" > 
+       <apex:outputtext value="Si necesitas mayor asistencia:" style="font-size: 15px"> </apex:outputtext>  <div/><p/> 
+    <!--     <a class="button" id="liveagent_button_online_5731a000000Gqp3" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('5731a000000Gqp3')">Abra una Chatea con Soporte VIZIO</a>
+       <a class="btnDisabled" id="liveagent_button_offline_5731a000000Gqp3" style="display: none;" >Chat es No Disponible </a> &nbsp;-->
+      
+      
+      <div id="chat">
+      <a class="button" id="liveagent_button_online_5731a000000GqsG" href="javascript://Chat" style="display: none;" onclick="liveagent.startChat('5731a000000GqsG')">Abrir una conversación con el servicio de asistencia de VIZIO</a>
+ <a class="btnDisabled" id="liveagent_button_offline_5731a000000GqsG" style="display: none;">El chat está disponible </a> &nbsp;
+      </div>
+       <a class="button" id="web2case" href="/apex/Web2Case?subject={!searchstring}&language={!selectLanguage}" >Envía un correo electrónico al servicio de asistencia de VIZIO</a>&nbsp;
+       <a class="button" id="CallAgent" href="/s/contact_hours">Llama a un agente del servicio de asistencia de VIZIO
+</a>
+ 
+ 
+ 
+ 
+ 
+ 
+     </apex:panelGrid>          
+    </apex:panelGroup>
+  </apex:pageBlock>
+
+ </apex:form>
+</apex:page>

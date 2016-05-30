@@ -1,0 +1,90 @@
+<apex:page controller="GetQuickText" sidebar="false"  showHeader="false" cache="false">
+
+<script type="text/javascript">          
+        function noenter(e) {
+       
+            if (window.event) {                    
+                key = window.event.keyCode;     //IE               
+            } 
+            else {                    
+                key = e.which;     //firefox               
+            }
+                           
+            if (key == 13) {     
+                executeFind();         
+                return false;               
+            }
+            else {                    
+                return true;               
+            }          
+        }     
+     </script>
+
+  <apex:form >
+  
+  <apex:outputpanel >
+        <apex:actionstatus id="entryStatus">
+            <apex:facet name="start">
+                <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 200%;opacity:0.65;width:100%;"> 
+                    <div class="waitingHolder" style="top: 274.2px; width: 91px;">
+                        <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." />
+                        <span class="waitingDescription">Please Wait...</span>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputpanel>
+    
+     <apex:pageBlock id="needRefresh">
+    <apex:outputPanel >
+     <apex:inputText value="{!keyword}" size="20" onkeypress="return noenter(event)" /> &nbsp;
+     <apex:commandButton value="Search" reRender="needRefresh" action="{!goSearch}" style="text-transform: capitalize;" status="entryStatus"/> &nbsp;
+     <apex:commandButton value="Clear Search" action="{!clearSearch}" reRender="needRefresh" style="text-transform: capitalize;" status="entryStatus"/>
+      <apex:actionFunction name="executeFind" status="entryStatus" action="{!goSearch}" />     
+          
+    </apex:outputPanel> 
+  
+    
+    
+  <apex:pageBlockTable value="{!QuickText}" var="o" columnswidth="50px,300px, 50px" >  
+                  
+          <apex:column headerValue="Quick Text Name" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="Quick Text Name{!IF(sortExpression=='Name',IF(sortDirection='ASC','▲','▼'),'')}" action="{!clickToSort}">
+                     <apex:param value="Name" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!o.Name}"/>
+                 
+                </apex:column>
+               
+                <apex:column value="{!o.Message}"/> 
+            <!--      <apex:column value="{!o.Channel}"/>   -->
+                <apex:column headerValue="Quick Text Channel" > 
+                
+                <apex:facet name="header">
+                   <apex:commandLink value="Quick Text Channel{!IF(sortExpression=='Quick_Text_Channel__c',IF(sortDirection='ASC','▲','▼'),'')}" action="{!clickToSort}">
+                     <apex:param value="Quick_Text_Channel__c" name="column" assignTo="{!sortExpression}"/>
+                   </apex:commandLink>
+                  
+                 </apex:facet>
+                  <apex:outputText value="{!o.Quick_Text_Channel__c}"/>                
+                </apex:column>    
+                
+         </apex:pageBlockTable>   
+
+          <apex:outputPanel >
+          <div style="text-align:center">
+            <apex:commandButton value="|<" action="{!setCon.first}" disabled="{!!setCon.hasPrevious}" title="Beginning" style="text-transform: capitalize;"/>
+            <apex:commandButton value="<Previous" action="{!setCon.previous}" disabled="{!!setCon.hasPrevious}" title="Previous" style="text-transform: capitalize;"/>
+           
+            <apex:commandButton value="Next>" action="{!setCon.next}" disabled="{!!setCon.hasNext}" title="Next" style="text-transform: capitalize;"/>
+            <apex:commandButton value=">|" action="{!setCon.last}" disabled="{!!setCon.hasNext}" title="End" style="text-transform: capitalize;"/>               
+   	      </div>
+   	    </apex:outputPanel>	
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

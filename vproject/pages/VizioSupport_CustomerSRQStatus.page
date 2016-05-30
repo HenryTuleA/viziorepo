@@ -1,0 +1,147 @@
+<apex:page controller="VizioSupport_CustomerSRQStatusController" sidebar="false"  showHeader="false">
+
+    <apex:form >
+    	<apex:pageBlock >
+    		
+    		<apex:pageBlockSection columns="2">	
+    			<apex:pageBlockSectionItem />
+    			<apex:pageBlockSectionItem />
+
+    			<apex:sectionHeader title="Welcome" subtitle="Service Request Status Tracking"/> 
+    			<apex:image value="{!$Resource.clear_logo}"  />
+
+    			<apex:messages style="font-size:10pt;font-weight:bold;color: red;"/>
+
+    			<apex:pageBlockSectionItem />
+    			<apex:pageBlockSectionItem />
+    		</apex:pageBlockSection>
+    		<div align="center">
+    		<table width="40%">
+    			<tr>
+    				<td>
+    					<apex:outputText value="Step 1: " style="font-size:11pt;font-weight:bold;color:darkblue"/> 
+    				</td>
+    			</tr>
+                <tr>
+                	<td />
+                    <td>
+                    	<apex:outputText value="Service Request Number: " />
+                    </td>
+                    <td />
+                    <td>
+                    	<apex:inputText value="{!srNumber}" />
+                	</td>
+                </tr>
+                
+                <tr>
+                	<td />
+                	<td />
+                	<td>
+                		<apex:outputText value="OR" style="font-weight:bold;"/>
+                	</td>
+                	<td />
+                </tr>
+                
+                <tr>
+                	<td />
+                	<td>
+                		<apex:outputText value="Last 4 digits of Phone Number" />
+                	</td>
+                	<td />
+                	<td>
+                		<apex:inputText value="{!last4Phone}"/>
+                	</td>
+                </tr>
+
+                <tr />
+    			<tr />
+    			<tr />
+
+                <tr>
+    				<td>
+    					<apex:outputText value="Step 2: " style="font-size:11pt;font-weight:bold;color:darkblue"/> 
+    				</td>
+    			</tr>
+    			
+                <tr>
+                	<td />
+                    <td>
+                    	<apex:outputText value="Zip Code: " />
+                    </td>
+                    <td />
+                    <td>
+                    	<apex:inputText value="{!zipCode}" />
+                	</td>
+                </tr>
+
+                <tr>
+                	<td />
+                	<td />
+                	<td />
+                	<td align="left">
+                        <apex:commandButton id="searchBtn" value="Search" action="{!search}" />
+                    </td>
+                </tr>
+            </table>
+            </div>
+
+            <br /> <br /> <br />
+
+             <apex:pageBlockSection columns="2" rendered="{!srFound}">
+    			<apex:pageBlockSectionItem >
+    				<apex:outputText value="Case #" style="font-size:11pt;font-weight:bold;" />
+    				<apex:outputText value="{!sr1[0].Case__r.CaseNumber}" />
+    			</apex:pageBlockSectionItem>
+             	
+             	<apex:pageBlockSectionItem >
+    				<apex:outputText value="Service Request #" style="font-size:10.5pt;font-weight:bold;"/>	
+    				<apex:outputText value="{!sr1[0].Voogle_SRID__c}" />
+    			</apex:pageBlockSectionItem>
+             		
+             </apex:pageBlockSection>
+
+             <br /> <br /> <br />
+
+             <apex:pageBlockTable value="{!li1}" var="item" rendered="{!liFound}">
+             	<!-- Using temporarily Notes as the Details field (never gets updated) -->
+             	<apex:column value="{!item.Notes__c}" />
+             	<apex:column value="{!item.Transaction_Date__c}" />
+             	<apex:column value="{!item.Product__r.SKUDesc__c}" />
+             	<apex:column value="{!item.Carrier_Name__c}" />
+             	<apex:column value="{!item.Tracking__c}" />
+             	<apex:column value="{!item.LastModifiedDate}" />
+             </apex:pageBlockTable>
+
+            <apex:pageBlockSection columns="1">	
+
+            	<!-- this shows only if there is no line items associated -->
+    			<apex:outputText rendered="{!show48Message}">
+    				Note: Information can take 48-72 hours to update after order has been placed with our warehouse. Please check this site at a later date.
+    			</apex:outputText> 
+
+    			<apex:pageBlockSectionItem />
+    			<apex:pageBlockSectionItem />
+    			<apex:pageBlockSectionItem />
+    			<apex:pageBlockSectionItem />
+    			<apex:pageBlockSectionItem />
+    			<apex:pageBlockSectionItem />
+
+    			
+    			
+
+    			<apex:outputText style="font-weight:bold;" value="Disclaimer" />
+    			<apex:outputText >
+    				Disclaimer: 
+    				VIZIO authorizes you to use this tracking system solely to procure status on the service of a VIZIO product that is
+    				owned by you, and for no other purpose. All dates and times referenced are estimates, provided on an "as is" basis, with no
+    				guarantees offered. VIZIO makes no representations about the results obtained from using this service and use of that 
+    				information is at you own risk
+    			</apex:outputText> 
+
+    			
+    			
+    		</apex:pageBlockSection>
+    	
+    	</apex:pageBlock>
+    </apex:form>
+</apex:page>

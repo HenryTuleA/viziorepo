@@ -1,0 +1,238 @@
+<apex:page showheader="false" sidebar="false" standardController="Case" extensions="Survey2" cache="false">
+<title>Customer Survey</title>
+
+	<style>
+	
+		
+		#header{
+		/**background: #DA2D28 url(/resource/1457475017000/Vizio_temp_logo) no-repeat left center;**/
+		/**background-size: 10%;**/
+		background-color: #ac3322;
+		padding:20px;
+		}
+		
+		#header h1{
+		text-align:center;
+		font-size:26px;
+		color:#ffffff;
+		line-height:50px;
+		display:block;
+		}
+		
+		#header img{
+		position:absolute;
+		}
+		
+		body .bPageBlock .pbHeader{
+		display:none;
+		}
+		
+		#content{
+		padding:20px;
+		color:#2f2f2f;
+		}
+		
+		.title{
+		font-size:26px;
+		display:block;
+		line-height:2em;
+		border-bottom:1px solid #d1d1d1;
+		}
+		
+		.borderless{
+		border:0px;
+		}
+		
+		h1.complete{
+		font-size:26px; 
+		color:#2f2f2f;
+		line-height:2em;
+		display:block;
+		text-align:center;
+		padding:90px 0;
+		}
+		
+		.btn_red, .btn_red:visited{
+		max-width:240px;
+		margin:40px auto 0;
+		width:100%;
+		background-color:#ac3322;
+		display:block;
+		cursor:pointer;
+		letter-spacing:1px;
+		text-align:center;
+		padding:15px 0px;
+		line-height:2em;
+		color:#ffffff !important;
+		font-size:15px;
+		text-decoration:none;
+		}
+		
+		.btn_red:hover, .btn_red:active{
+		color:#2f2f2f !important;
+		text-decoration:none;
+		}
+		
+		.subtitle{
+		font-size:15px;
+		color:#333333;
+		font-weight:bold;
+		}
+		
+		#content form{
+		font-size:13px;
+		line-height:2em;
+		}
+		
+		span.star{
+		color:#ac3322;
+		}
+		
+		body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .menuButton .menuButtonButton{
+		background-image:none;
+		background-color:#ac3322;
+		color:#ffffff;
+		}
+		
+		/****remove default styling from pageblock****/
+		
+		body .bPageBlock, body #bodyCell .bResource .secondaryPalette, body .secondaryPalette.bPageBlock, body .individualPalette .secondaryPalette.bPageBlock, body .bodyDiv .genericTable, body .genericPageBlockTable, body .bodyDiv .bSubBlock, body .bComponentBlock .bPageBlock, body .bMyDashboard .bPageBlock, body.rlHoverFrame .bPageBlock, body.subjectSelectionPopup div.choicesBox, body.lookupTab .secondaryPalette.bPageBlock, body.popupTab .secondaryPalette.bPageBlock, body.UserTagStatsPage .secondaryPalette.bPageBlock{
+		background:#ffffff;
+		border:0px;		
+		}
+		
+		.detailPage .bPageBlock, .editPage .bPageBlock{
+		border-top-width:0px;
+		}
+		
+		.bEditBlock .pbHeader > table, .apexp .bPageBlock.apexDefaultPageBlock .pbHeader > table, #ep.bLayoutBlock .pbHeader > table{
+		border-bottom:0px;
+		}
+		
+		
+		@media screen and (max-width: 560px) {
+			#header img{
+			position:static;
+			}
+		} 
+		
+	</style>
+	
+	<div id="header">
+		<apex:image url="{!$Resource.Vizio_temp_logo}" width="auto" height="50"/>
+		<h1>Support</h1>
+	</div>
+	
+	
+  <apex:pageBlock id="survey1" title="" mode="edit" rendered="{!step='1'}">
+	<div id="content">
+	 <h1 class="title borderless">Hi {!contactName}! Thank you for contacting VIZIO and using our product. Your case number is {!caseNum}.</h1>
+    <h1 class="title" >Survey</h1>
+       
+       		
+	<apex:form id="survey_form">
+	
+		<p class="subtitle">Please provide all of the below information</p>
+	
+        <ol>
+        	<li>
+        		<p>How much effort did you have to personally put forth to handle your request? <span class="star">*</span></p>
+	        	<input type="radio" name="response1" value="Low Effort" required='true'> Low Effort</input>
+				<br/>
+		        
+				<input type="radio" name="response1" value="Some Effort"> Some Effort</input>
+				<br/>
+		        
+				<input type="radio" name="response1" value="Considerable Effort"> Considerable Effort</input> 
+				<br/>       
+	        
+        	</li>
+        	
+        	<li>
+        		<p>How satisfied are you with the outcome of your call? <span class="star">*</span></p>
+	        	<input type="radio" name="response2" value="Satisfied" required='true'>Satisfied</input>
+				<br/>
+		        
+				<input type="radio" name="response2" value="Neither Satisfied or Unsatisfied"> Neither Satisfied or Unsatisfied</input>
+				<br/>
+		        
+				<input type="radio" name="response2" value="Unsatisfied"> Unsatisfied</input>
+				<br/>       
+	        
+        	</li>
+        	
+        	<li>
+        		<p>Was your issue resolved on your first call? <span class="star">*</span></p>
+	        	<input type="radio" name="response3" value="Yes" required='true'> Yes</input>
+				<br/>
+		        
+				<input type="radio" name="response3" value="No"> No</input>
+				<br/>
+		        
+	        
+        	</li>
+        	
+        	<li>
+        		<p>If not resolved on the first call, did we follow up with you when you expected it? <span class="star">*</span></p>
+	        	<input type="radio" name="response4" value="Yes" required='true'> Yes</input>
+				<br/>
+		        
+				<input type="radio" name="response4" value="No"> No</input>
+				<br/> 
+				
+				<input type="radio" name="response4" value="Not Applicable"> Not Applicable</input>
+				<br/>      
+	        
+        	</li>
+        	
+        	<li>
+        		<p>How likely are you to recommend VIZIO products to friends, family and colleagues? <span class="star">*</span></p>
+	        	<input type="radio" name="response5" value="Likely" required='true'> Likely</input>
+				<br/>
+		        
+				<input type="radio" name="response5" value="Neither Likely or Unlikely"> Neither Likely or Unlikely</input>
+				<br/>
+		        
+				<input type="radio" name="response5" value="Unlikely"> Unlikely</input>
+				<br/>       
+	        
+        	</li>
+        	
+        	<li>
+        		<p>How would you rate your Representatives handling of your call? <span class="star">*</span></p>
+	        	<input type="radio" name="response6" value="Excellent" required='true'> Excellent</input>
+				<br/>
+		        
+				<input type="radio" name="response6" value="Average"> Average</input>
+				<br/>
+		        
+				<input type="radio" name="response6" value="Poor"> Poor</input>
+				<br/>       
+	        
+        	</li>
+        	
+        	<li>
+        		<p>Comments: (optional)</p>
+	        	<textarea rows="3" cols="75" name="response7" id="response7" maxlength="100" ></textarea><br/>
+	        
+        	</li>
+        </ol>
+       
+        
+        
+        
+        <apex:commandButton action="{!submit}" value="SUBMIT REQUEST" id="theButton"/>
+        
+	</apex:form> 
+	</div>
+	 </apex:pageBlock>
+	
+	<apex:pageBlock id="step2" title="" mode="edit" rendered="{!step='2'}">
+	<h1 class="complete">Survey for Case {!caseNum} is completed. Thank you for participating.</h1>
+	
+	<a class="btn_red" href="https://support.vizio.com">VIZIO Support</a>
+	</apex:pageBlock>
+	
+	
+	
+</apex:page>

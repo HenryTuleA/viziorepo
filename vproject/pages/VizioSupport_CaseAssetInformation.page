@@ -1,0 +1,239 @@
+<apex:page standardController="case" extensions="VizioSupport_CaseAssetInformation" showHeader="false"  cache="false" docType="html-5.0">
+
+<style>
+
+.bPageBlock .detailList .labelCol{
+width:16.67%;
+}
+
+.bPageBlock .detailList .dataCol{
+width:16.67%;
+} 
+ 
+/**table detail***/
+
+table.detail{
+border-collapse:collapse;
+margin:20px 0 10px; 
+}
+
+table.detail, table.detail td{ 
+border:1px solid #9DB8D3;
+}
+
+table.detail td{
+padding:5px;
+width:18%;
+}
+
+table.detail td.label{
+width:15%;
+background-color:#F0F3F6;
+text-align:center;
+}
+
+a, a:visited, a:active{
+color:#3366cc;
+font-weight:bold;
+text-decoration:underline;
+}
+
+a:hover{
+color:#EC4A1E;
+font-weight:bold;
+}
+
+h1.section_title{
+font-family:Verdana, Arial;
+font-size:12px;
+font-weight:bold;
+margin:0 10px 20px 0;
+}
+
+</style>
+ <apex:messages />
+   <apex:form >
+    <apex:pageBlock mode="edit" rendered="{!showPageBlock}">     
+        <!--Asset Information-->       
+        <h1 class="section_title"></h1>
+
+        <apex:outputLink target="_blank" value="/apex/VizioSupport_EditAsset?CaseID={!CaseId}&Open=CaseDetail" rendered="{!showAsset}" style="font-size:11pt;font-weight:bold; Color:#3366cc;">Edit Asset </apex:outputLink>
+          &nbsp;&nbsp;<apex:commandButton action="{!getNOCInfo}" value="Get Decive NOC Info" rendered="{!showAsset}"/>
+          <table style="width:100%" cellpaddig="50" class="detail case">
+            <tbody>
+                <tr>
+                    <td class="label">Serial No.</td>
+                    <td class="data"><apex:outputField value="{!currentAsset[0].SerialNumber}" rendered="{!showAsset}"/></td>
+                    <td class="label">SKU</td>
+                    <td class="data"><apex:outputField value="{!currentProduct[0].SKU__c}" rendered="{!showProduct}"/></td>
+                    <td class="label">Model</td>
+                    <td class="data"><apex:outputField value="{!currentProduct[0].Model__c}" rendered="{!showProduct}"/></td>
+                </tr>
+                
+                <tr>
+                    <td class="label">Description</td>
+                    <td class="data" colspan="5"><apex:outputField value="{!currentProduct[0].Description}" rendered="{!showProduct}"/></td>
+                </tr>
+                
+                <tr>
+                    <td class="label">Purchase Date</td>
+                    <td class="data"><apex:outputField value="{!currentAsset[0].PurchaseDate}" rendered="{!showAsset}"/></td>
+                    <td class="label">Purchase Location</td>
+                    <td class="data"><apex:outputField value="{!currentAsset[0].Purchase_Location__c}" rendered="{!showAsset}"/></td>
+                    <td class="label">Purchase Price</td>
+                    <td class="data"><apex:outputField value="{!currentAsset[0].Purchase_Price__c}" rendered="{!showAsset}"/></td>
+                </tr>
+                
+                <tr>
+                    <td class="label">Asset Notes</td>
+                    <td class="data" colspan="5"><apex:outputField value="{!currentAsset[0].Asset_Notes__c}" rendered="{!showAsset}"/></td>
+                </tr>
+                
+                <!-- DOAOOW part -->
+                <!-- 1. POP Verified and Has purchase Date -->               
+                <apex:outputPanel rendered="{!isPOPVerified&&hasPurchaseDate}">
+                <tr>
+                    <td class="label">POP has been verified?</td>
+                    <td class="data"><apex:outputText value="Verified" rendered="{!showAsset}" style="font-size:11pt;font-weight:bold; Color:#000000;"/></td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                </tr>           
+                <tr>
+                    <td class="label">DOA Date</td>
+                    <td class="data">
+                        
+                        <!-- DOA - Today date > 1 -->
+                        <!--  <apex:outputField value="{!currentAsset[0].DOA_Date__c}" rendered="{!showAsset&&DOAremindDay>1}"/> -->
+                        <apex:outputText value="{!DOADate} ({!DOAremindDay} days left)" rendered="{!showAsset&&DOAremindDay>1}" style="font-weight:bold; Color:#00C24F;"/>
+                        
+                        <!-- DOA - Today date = 1 -->            
+                        <!--  <apex:outputField value="{!currentAsset[0].DOA_Date__c}" rendered="{!showAsset&&DOAremindDay==1}"/> -->
+                        <apex:outputText value="{!DOADate} ({!DOAremindDay} day left)" rendered="{!showAsset&&DOAremindDay==1}" style="font-weight:bold; Color:#00C24F; "/>
+                        
+                        <!-- DOA - Today date < 1 -->            
+                        <apex:outputText value="Outside DOA" rendered="{!showAsset&&DOAremindDay<1}" style="font-size:11pt;font-weight:bold; Color:#FFFFFF; background-color:#FF0000; "/></td>
+                    
+                    <td class="label">OOW Date</td>
+                    <td class="data">
+                        <!-- OOW - Today > 1 && findOOWDate -->
+                        <apex:outputText value="{!OOWDate} ({!OOWremindDay} days left)" rendered="{!showAsset&&findOOWDate&&OOWremindDay>1}" style="font-weight:bold; Color:#00C24F;"/>
+                        
+                        <!-- OOW - Today = 1 && findOOWDate -->
+                        <apex:outputText value="{!OOWDate} ({!OOWremindDay} day left)" rendered="{!showAsset&&findOOWDate&&OOWremindDay==1}" style="font-weight:bold; Color:#00C24F;"/>
+                        
+                        <!-- OOW - Today < 1 && findOOWDate -->
+                        <apex:outputText value="{!OOWDate} (Product OOW)" rendered="{!showAsset&&findOOWDate&&OOWremindDay<1}" style="font-size:11pt;font-weight:bold; Color:#FFFFFF; background-color:#FF0000; "/>
+                        
+                        <!-- OOW - Today < 1 && findOOWDate -->
+                        <apex:outputText value=" " rendered="{!showAsset&&Not(findOOWDate)}"/>
+                    </td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                </tr>
+                </apex:outputPanel>
+                
+                <!-- 2. POP didn't Verify and Has purchase Date --> 
+                <apex:outputPanel rendered="{!Not(isPOPVerified)&&hasPurchaseDate}">
+                <tr>
+                    <td class="label">POP has been verified?</td>
+                    <td class="data"><apex:outputText value="Not verified" rendered="{!showAsset}" style="font-size:11pt;font-weight:bold; Color:#FF0000; "/> </td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                </tr>           
+                <tr>
+                    <td class="label">DOA Date</td>
+                    <td class="data">
+                        
+                        <!-- DOA - Today date > 1 -->
+                        <!--  <apex:outputField value="{!currentAsset[0].DOA_Date__c}" rendered="{!showAsset&&DOAremindDay>1}"/> -->
+                        <apex:outputText value="{!DOADate} ({!DOAremindDay} days left)" rendered="{!showAsset&&DOAremindDay>1}" style="font-weight:bold; Color:#00C24F;"/>
+                        
+                        <!-- DOA - Today date = 1 -->            
+                        <!--  <apex:outputField value="{!currentAsset[0].DOA_Date__c}" rendered="{!showAsset&&DOAremindDay==1}"/> -->
+                        <apex:outputText value="{!DOADate} ({!DOAremindDay} day left)" rendered="{!showAsset&&DOAremindDay==1}" style="font-weight:bold; Color:#00C24F; "/>
+                        
+                        <!-- DOA - Today date < 1 -->            
+                        <apex:outputText value="Outside DOA" rendered="{!showAsset&&DOAremindDay<1}" style="font-size:11pt;font-weight:bold; Color:#FFFFFF; background-color:#FF0000; "/></td>
+                    
+                    <td class="label">OOW Date</td>
+                    <td class="data">
+                        <!-- OOW - Today > 1 && findOOWDate -->
+                        <apex:outputText value="{!OOWDate} ({!OOWremindDay} days left)" rendered="{!showAsset&&findOOWDate&&OOWremindDay>1}" style="font-weight:bold; Color:#00C24F;"/>
+                        
+                        <!-- OOW - Today = 1 && findOOWDate -->
+                        <apex:outputText value="{!OOWDate} ({!OOWremindDay} day left)" rendered="{!showAsset&&findOOWDate&&OOWremindDay==1}" style="font-weight:bold; Color:#00C24F;"/>
+                        
+                        <!-- OOW - Today < 1 && findOOWDate -->
+                        <apex:outputText value="{!OOWDate} (Product OOW)" rendered="{!showAsset&&findOOWDate&&OOWremindDay<1}" style="font-size:11pt;font-weight:bold; Color:#FFFFFF; background-color:#FF0000; "/>
+                        
+                        <!-- OOW - Today < 1 && findOOWDate -->
+                        <apex:outputText value=" " rendered="{!showAsset&&Not(findOOWDate)}"/>
+                    </td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                </tr>
+                 </apex:outputPanel> 
+                 
+                 <!-- 3. POP didn't Verify and does't have purchase Date --> 
+                <apex:outputPanel rendered="{!Not(isPOPVerified)&&NOT(hasPurchaseDate)}">
+                <tr>
+                    <td class="label">POP has been verified?</td>
+                    <td class="data"><apex:outputText value="Not verified" rendered="{!showAsset}" style="font-size:11pt;font-weight:bold; Color:#FF0000; "/> </td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                </tr>           
+                <tr>
+                    <td class="label">DOA Date</td>
+                    <td class="data"></td>
+                    <td class="label">OOW Date</td>
+                    <td class="data"></td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                    
+                </tr>
+                 </apex:outputPanel> 
+                 
+                 <!-- 4. POP Verified and doesn't purchase Date -->
+                
+                <apex:outputPanel rendered="{!isPOPVerified&&NOT(hasPurchaseDate)}">
+                <tr>
+                    <td class="label">POP has been verified?</td>
+                    <td class="data"><apex:outputText value="Verified" rendered="{!showAsset}" style="font-size:11pt;font-weight:bold; Color:#000000;"/></td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                </tr>           
+                <tr>
+                    <td class="label">DOA Date</td>
+                    <td class="data"></td>
+                    <td class="label">OOW Date</td>
+                    <td class="data"></td>
+                    <td class="label"></td>
+                    <td class="data"></td>
+                </tr>
+                </apex:outputPanel>
+            </tbody>
+        </table>   
+        <!-- empty section -->
+         <apex:pageBlockSection > <apex:pageBlockSectionItem > </apex:pageBlockSectionItem> </apex:pageBlockSection>
+       <apex:outputPanel rendered="{!hasCast}">
+        <h1 class="section_title">- Cast Information</h1>
+         <apex:commandButton action="{!getNOCInfo}" value="Get Tablet NOC Info" rendered="{!hasCast}"/>
+        	<table style="width:33%" cellpaddig="50" class="detail case">
+            <tbody>
+                <tr>
+                    <td class="label">Tablet Serial Number</td>
+                    <td class="data"><apex:outputField value="{!currentCast[0].TabletSerialNo__c}" rendered="{!hasCast}"/></td>
+                    
+                </tr>
+             </tbody>
+            </table>
+        
+        </apex:outputPanel>
+        
+    </apex:pageBlock>   
+      
+    
+</apex:form>
+
+
+</apex:page>

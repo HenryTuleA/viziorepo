@@ -1,0 +1,126 @@
+<apex:page controller="VizioSupport_NewClaimFormController" >
+	<apex:form >
+
+		<apex:pageBlock mode="deatil"> <!-- mode="edit" -->
+				
+			<apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText value="New Claim Form: " style="font-size:10.5pt;font-weight:bold"/> 
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            <br />
+            <br />
+    	
+    		<apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Claim ID:</apex:outputLabel>
+                        <apex:inputText value="{!vclaim1.ID}" disabled="true" /> 
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSectionItem>
+                
+           		<apex:pageBlockSectionItem />
+                
+                <apex:pageBlockSectionItem >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Coutry:</apex:outputLabel>
+                        <apex:inputField value="{!vclaim1.Country__c}" /> 
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+    	 	
+    	 	<br />
+    	 	<br />
+    	 	
+    	 	<apex:pageBlockSection >
+
+    	 		<apex:outputText value="Store Information: " style="font-size:9pt;font-weight:bold"/> 
+    	 		<apex:outputText value="Service Information: " style="font-size:9pt;font-weight:bold"/> 
+<!-- 
+    	 		<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Store #:</apex:outputLabel>
+                    <apex:inputText value="{!vclaim1.StoreNo__c}" disabled="true" /> 
+              	</apex:pageBlockSectionItem>
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Service Order #:</apex:outputLabel>
+                    <apex:inputField value="{!vclaim1.Service_Order__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:outputText value="Customer Information: " style="font-size:9pt;font-weight:bold"/> 
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Defect Code:</apex:outputLabel>
+                    <apex:inputField value="{!vclaim1.Defect__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Customer First Name:</apex:outputLabel>
+                    <apex:inputField value="{!contact1.FirstName}" /> 
+              	</apex:pageBlockSectionItem>
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Repair Code:</apex:outputLabel>
+                    <apex:inputField value="{!vclaim1.Repair_Code__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Customer Last Name:</apex:outputLabel>
+                    <apex:inputField value="{!contact1.LastName}" /> 
+              	</apex:pageBlockSectionItem>
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Service In Date:</apex:outputLabel>
+                    <apex:inputField value="{!vclaim1.Service_In_Date__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Customer Address:</apex:outputLabel>
+                    <apex:inputField value="{!contact1.Address_Line1__c}" /> 
+              	</apex:pageBlockSectionItem>  
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Service In Date:</apex:outputLabel>
+                    <apex:inputField value="{!vclaim1.Service_Complete_Date__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Customer City:</apex:outputLabel>
+                    <apex:inputField value="{!contact1.City__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	<apex:pageBlockSectionItem >
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Customer State:</apex:outputLabel>
+                    <apex:inputField value="{!contact1.State__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	<apex:pageBlockSectionItem >
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Customer Zip Code:</apex:outputLabel>
+                    <apex:inputField value="{!contact1.zipcode__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	<apex:pageBlockSectionItem >
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Customer Phone:</apex:outputLabel>
+                    <apex:inputField value="{!contact1.phone}" /> 
+              	</apex:pageBlockSectionItem>
+              	<apex:pageBlockSectionItem >
+              	</apex:pageBlockSectionItem>
+              	
+              	<apex:outputText value="Customer Information: " style="font-size:9pt;font-weight:bold"/> 
+              	<apex:pageBlockSectionItem >
+                	<apex:outputLabel >Defect Code:</apex:outputLabel>
+                    <apex:inputField value="{!vclaim1.Defect__c}" /> 
+              	</apex:pageBlockSectionItem>
+              	
+              	
+              	 -->
+    	 	</apex:pageBlockSection>
+    	 	
+    	</apex:pageBlock>
+    	
+	</apex:form>
+</apex:page>

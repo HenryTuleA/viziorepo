@@ -1,0 +1,3 @@
+<apex:page showHeader="true" tabStyle="Service_Claim__c">
+<apex:enhancedList type="Service_Claim__c" height="700" rowsPerPage="25"/>
+</apex:page>

@@ -1,0 +1,3 @@
+<apex:page tabStyle="Lead">
+    <apex:enhancedList type="Lead" height="600" rowsPerPage="25" id="LeadListView" />
+</apex:page>

@@ -1,0 +1,139 @@
+<apex:page standardcontroller="Contact" extensions="VizioSupport_USPSCreateController"  showHeader="false"  standardStylesheets="true" cache="false" docType="html-5.0">
+
+<apex:includeScript value="/support/console/26.0/integration.js"/>
+    <script type="text/javascript">          
+        function openPrimaryTab(id, name) {
+ 			if (sforce.console.isInConsole())
+  				sforce.console.openPrimaryTab(undefined, '/' + id + '?isdtp=vw', true, name);
+ 			else
+  				window.top.location.href = '/' + id;
+			}
+     </script>
+     
+     
+     
+
+
+   
+     
+<!-- Visual component -->
+    <c:VizioSupport_USPS_Address ContactObject="{!contactMoreInfo}" CheckFullZip="true" USPS_USER="{!uspsUserIDCode}" /> 
+     <apex:pageMessages />
+   <!--   <apex:form html-novalidate="novalidate" id="ContributionRequestForm" > -->
+   
+   
+    <apex:form >
+  <apex:pageBlock Id="tableBlock" title="Existing Customers:" rendered="{!hasMatch}">
+        
+        <apex:pageBlockTable value="{!matchContactList}" var="item" >
+                    
+                <apex:column headerValue="Customer Name" >                           
+                  <!--  <apex:outputLink target="_self" value="/{!item.id}">{!item.Name} -->
+                  <apex:outputLink target="_self" onclick="openPrimaryTab('{!item.Id}', '{!item.Name}'); return false;">{!item.Name}
+                  </apex:outputLink>              
+                </apex:column>
+                <apex:column value="{!item.Phone}" />
+                <apex:column value="{!item.OtherPhone}" />
+                <apex:column value="{!item.Email}" />
+                <apex:column value="{!item.MailingStreet}" />
+                <apex:column value="{!item.MailingCity}" />
+                <apex:column value="{!item.MailingStateCode}" /> 
+                <apex:column value="{!item.MailingPostalCode}" />
+            </apex:pageBlockTable>
+        </apex:pageBlock>  
+         
+      <apex:pageBlock title="Create Customer" id="mainBlock">
+
+         <h2>Customer Contact Info:</h2>      
+         <table width="60%" border="0">
+              <tr/>
+              <tr>
+                    <td width="100px"><h3>First Name:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.FirstName}" id="FirstName" /></td>
+                    <td width="100px"><h3>Phone:</h3></td>
+                    <td width="200px"><apex:inputText value="{!phoneNumber}" id="Phone"/></td>
+                    <td width="100px"><h3>Fax:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.Fax}" id="Fax"/></td>
+              </tr>
+              <tr>
+                    <td width="100px"><h3>Last Name:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.LastName}" id="LastName"/></td>
+                    <td width="100px"><h3>Other Phone:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.OtherPhone}" id="OtherPhone"/></td>
+                    <td width="100px"><h3>Email:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.Email}" id="Email"/></td>
+                                     
+              </tr>
+                    <td width="100px"><h3>Extension:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.Extension__c}" id="Extension"/></td>
+                    <td width="100px"><h3>Customer Type:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.Customer_Type__c}" id="CustomerType"/></td>
+                    
+              <tr>
+              </tr>
+              <tr><td><br/></td></tr>
+        </table> 
+
+        <h2>Retailer Info:</h2>      
+         <table width="40%" border="0">
+              <tr/>
+              <tr>
+                    <td width="100px"><h3>Retailer:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.Retailer__c}" id="Retailer" >
+                    	<apex:actionSupport event="onchange"  rerender="mainBlock" action="{!FindRetail}"/>
+                    	</apex:inputField>
+                    </td>
+                    <td width="100px"><h3>Retailer Id:</h3></td>
+                    <td width="200px"><apex:outputText value="{!retailerId}" id="RetailerId"/></td>
+              </tr>
+              <tr>
+                    <td width="100px"><h3>Store Number:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.Store_Number__c}" id="SNumber"/></td>
+                    <td width="100px"><h3>Store Name:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.Store_Name__c}" id="SName"/></td>
+                    
+                                     
+              </tr>
+              <tr><td><br/></td></tr>
+        </table> 
+        
+        <h2>Customer Address Info:</h2>      
+        <table width="60%" border="0">
+              <tr/>
+              <tr>
+                    <td width="100px"><h3>Street:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.MailingStreet}" id="Street" style="font-family:MS Shell Dlg;font-size: 13.3333px;"/></td>
+                    <td width="100px"><h3>City:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.MailingCity}" id="City"/></td>
+                    <td width="100px"><h3>Zip code:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.MailingPostalCode}" id="PostalCode"/></td>
+              </tr>
+              <tr>
+                    <td width="100px"><h3>State:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.MailingStateCode}" id="State"/></td>
+                   <!--   <td><h3>State Code:</h3></td>
+                    <td><apex:inputField value="{! contactMoreInfo.MailingState}" id="StateCD"/></td> -->
+                    <td width="100px"><h3>County:</h3></td>
+                    <td width="200px"><apex:inputField value="{!contactMoreInfo.MailingCountryCode}" id="Country"/></td>
+                   <!--    <td><h3>County Code:</h3></td>
+                      <td><apex:inputField value="{! contactMoreInfo.MailingCountry}" id="CountryCD"/></td> -->
+                      
+                    
+                    
+              </tr>
+              <tr><td><br/></td></tr>
+        </table>
+    
+        <center>
+            <br/>
+            <apex:commandButton action="{!validate}" value="Validate"/>
+            <apex:commandButton action="{!Save}" value="Save"  >
+                  
+            </apex:commandButton> 
+            <apex:commandButton action="{!Cancel}" value="Cancel" immediate="true" html-formnovalidate="formnovalidate"/>
+           
+        </center>        
+     </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

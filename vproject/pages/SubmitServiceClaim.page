@@ -1,0 +1,8 @@
+<apex:page standardController="Service_Claim__c" extensions="SubmitServiceClaimController" action="{!submit}">
+    <apex:form >
+        <apex:pageMessages id="message"/>
+        <div align="center">
+            <apex:commandButton value="Back" action="{!okButton}" />
+        </div>
+    </apex:form> 
+</apex:page>

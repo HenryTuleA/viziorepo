@@ -1,0 +1,36 @@
+<apex:page standardController="case" extensions="NewCase">
+
+<apex:form >
+
+<apex:pageBlock title="New Case" mode="edit">
+    <apex:pageBlockSection >
+        <apex:inputField id="contact" value="{!case.contactId}" required="true"/>
+       
+        <apex:inputField id="origin" value="{!case.origin}" required="true"/>   
+        
+        <apex:selectList value="{!case.status}" size="0">
+                <apex:selectOptions value="{!status}"/>
+            </apex:selectList>
+            
+          
+          
+        <!--   <apex:inputField id="status" value="{!case.status}" required="true"/>  -->
+                <apex:inputField id="reason" value="{!case.reason}" required="true"/>    
+     </apex:pageBlockSection>   
+        
+        <!--Save and cancel button-->
+           <apex:pageblockbuttons >
+             <apex:commandbutton action="{!save}" value="Save"></apex:commandbutton> <!--Save button calling UpdateStatus method-->
+             <apex:commandbutton action="{!cancel}" value="Cancel"></apex:commandbutton>    <!--Cancel button-->
+           </apex:pageblockbuttons>
+         
+      
+        
+        
+ </apex:pageBlock>
+ 
+
+ </apex:form>
+ 
+ 
+</apex:page>

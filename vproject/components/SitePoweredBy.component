@@ -1,0 +1,8 @@
+<apex:component id="poweredbyComponent">
+  <apex:panelGrid cellpadding="0" cellspacing="0" width="100%" border="0" style="text-align: right;" columns="1" id="thePoweredByTop">
+    <apex:panelGroup id="poweredBy">
+      <apex:outputText style="font-size: smaller" value="{!$Label.site.powered_by}"/>
+      <apex:outputLink value="http://www.vizio.com"> <apex:image url="{!$Resource.clear_logo}"  width="50" height="20" /></apex:outputLink>
+    </apex:panelGroup>
+   </apex:panelGrid>
+</apex:component>

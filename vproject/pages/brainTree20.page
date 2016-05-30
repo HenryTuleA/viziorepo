@@ -1,0 +1,92 @@
+<apex:page controller="Vizio_BrainTreeClass">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://js.braintreegateway.com/js/braintree-2.22.2.min.js"></script>
+<apex:pageMessages />
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Make a new transaction</h1>
+  This is your new Page
+  <!-- End Default Content REMOVE THIS -->
+  
+  <form action="" id="my-form" method="post">
+      <label for="a">Amount</label>
+      <div id="amount"> 
+          <input type="text" name="amount" value="400" id="amount" />
+      </div>
+      
+      <label for="card-number">Card Number</label>
+      <div id="card-number"> 
+          <input type="text" name="cardNumber" value="4111111111111111" id="cardNumber" />
+      </div>
+
+      <label for="cvv">CVV</label>
+      <div id="cvv">
+          <input type="text" name="CVV" value="020" id="cv-v" />
+       </div>
+      <label for="expiration-month">Expiration Month</label>
+      <div id="expiration-month">
+          <input type="text" name="expirMonth" value="10" id="expirMonth" />
+       </div>
+
+      <label for="expiration-year">Expiration Year</label>
+      <div id="expiration-year">
+          <input type="text" name="expirYear" value="20" id="expirYear" />
+       </div>
+
+      <input type="submit" value="Pay" id="btn_submit"/>
+  </form>
+
+  <apex:form >
+        <apex:actionFunction name="backtoParent" action="{!sendNonceToken}" rerender="view">
+             <apex:param id="id1" name="myNonce" value=""/>     
+             <apex:param id="id2" name="myOrderId" value=""/>
+        </apex:actionFunction>
+    </apex:form>   
+ 
+ <script>
+         var clientToken ="{!cardToken}";
+         alert('amount =');
+         $("#my-form").click( function(event){
+              var amount     =  $("#amount").val();
+              var cvv        =  $("#cv-v").val();
+              var expirMonth =  $("#expirMonth").val();
+              var expirYear  =  $("#expirYear").val();
+              var expirDate  =  $("#expirDate").val();
+              var cardNumber =  $("#cardNumber").val();
+              var nonce0 ;
+              //alert('amount ='+ amount + '  cardNumber ' + cardNumber + '  cvv = ' + cvv + '  expirMonth = ' + expirMonth + '  expirYear = ' + expirYear + '  clientToken = ' + clientToken);
+            
+              //alert('amount ='+ amount + '  cardNumber ' + cardNumber + '  cvv = ' + #cvv + '  expirDate = ' + #expirDate );
+              console.log('Before BTree');
+              braintree.setup(clientToken, "custom", {
+                    id: "my-form",
+                    hostedFields: {
+                          number: {
+                            selector: "#card-number"
+                          },
+                          cvv: {
+                            selector: "#cvv"
+                          },
+                          expirationMonth: {
+                            selector: "#expiration-month"
+                          },
+                          expirationYear: {
+                            selector: "#expiration-year"
+                          },
+                    },
+                    onPaymentMethodReceived:function(nonce){
+                        nonce0 = nonce;
+                        alert('OnPaymentMR');
+                        console.log(JSON.stringify(nonce));
+                        return false;
+                    },
+                    onError :function(obj){
+                        alert('onError');
+                        console.log(JSON.stringify(obj));
+                   }
+             }
+                
+       ); 
+            console.log('BTree = '+ nonce0);
+         });          
+  </script>
+</apex:page>

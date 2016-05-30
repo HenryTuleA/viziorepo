@@ -1,0 +1,36 @@
+<apex:page standardController="Claim__c" extensions="CloneController" action="{!claimClone}">
+    <br/>
+    Claim Edit
+    <br/>
+    
+    <style type="text/css">
+    	.largeText { font-size: 16pt; }
+    </style>
+    <apex:outputText styleClass="largeText" value="New Claim"/>
+	<br/>
+	
+	<apex:form >
+		<apex:pageBlock title="Claim Edit" mode="edit">
+	 		<apex:pageBlockButtons >
+	 			<apex:commandButton value="Save" action="{!save}"/>
+			   
+			    <apex:commandButton value="Cancel" action="{!cancel}"/>
+	 		</apex:pageBlockButtons>
+	 		<apex:pageBlockSection columns="2">
+			 	<apex:outputField value="{!Claim__c.Account__c}"/>
+				<apex:outputField value="{!Claim__c.ownerid}" />
+				<apex:outputField value="{!Claim__c.Status__c}" />
+				<br/>
+				<apex:inputField value="{!Claim__c.Co_Op__c}"/>
+				<br/>
+				<apex:inputField value="{!Claim__c.name}"/>
+				<br/>
+				<apex:inputField value="{!Claim__c.Claim_Start_Date__c}"/>
+				<br/>
+				<apex:inputField value="{!Claim__c.Claim_End_Date__c}"/>
+				<br/>
+				<apex:outputField value="{!Claim__c.Claim_Type__c}"/>
+		    </apex:pageBlockSection>  
+	    </apex:pageBlock>
+    </apex:form>
+</apex:page>

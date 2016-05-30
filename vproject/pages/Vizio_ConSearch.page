@@ -1,0 +1,16 @@
+<apex:page extensions="Vizio_ContactSearch" standardController="Contact">
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page: ContactButton
+  <!-- End Default Content REMOVE THIS -->
+  <apex:messages />
+  <apex:form >
+      
+      <apex:commandButton action="{!crtContact}" title="Button" value="Button" rendered="true">
+      <apex:param assignTo="{!phonenum}"  value="{!phonenum}"/>
+      </apex:commandButton>
+      <apex:inputText value="{!phonenum}" label="EnterPhone#"  title="Phone#"  /> 
+     
+
+  </apex:form>
+</apex:page>

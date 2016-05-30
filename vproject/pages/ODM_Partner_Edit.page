@@ -1,0 +1,24 @@
+<apex:page standardController="ODM_Partner__c" extensions="ODM_Edit_Controller" tabStyle="Account" title="ODM Partner Edit">
+    <apex:sectionHeader title="ODM Partner Edit"/>
+    <apex:pageMessages id="pageError" />
+    <apex:form >
+        <apex:pageBlock title="ODM Partner Edit" mode="edit">
+            <apex:pageBlockButtons location="both">
+                <apex:commandButton action="{!save}" value="Save"/>
+                <apex:commandButton action="{!cancel}" value="Cancel" immediate="true" />
+            </apex:pageBlockButtons>
+            
+            <apex:outputPanel id="orderInfo">
+                <apex:pageBlockSection title="Information" columns="1" collapsible="false">
+                
+                    <apex:outputField value="{!ODM_Partner__c.VASP_Partner__c}" />
+                    <apex:inputField value="{!ODM_Partner__c.ODM_Partner__c}" required="true" />
+                    <apex:inputField value="{!ODM_Partner__c.Mark_Up_Percentage__c}" />
+                    <apex:inputField value="{!ODM_Partner__c.Margin_Percentage__c}" />
+                    <apex:inputField value="{!ODM_Partner__c.Freight_Markup__c}" />
+
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

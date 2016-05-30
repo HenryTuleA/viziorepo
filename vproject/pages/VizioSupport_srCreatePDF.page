@@ -1,0 +1,9 @@
+<!-- Empty page that by using the VizioSupport_ServiceReq_PDFController returns a page that will be available to be printed -->
+<apex:page standardcontroller="Service_Request__c" extensions="VizioSupport_ServiceReq_PDFController" showHeader="false" 
+            action="{!createPDF}">
+    <apex:form >
+        <br/>
+        <br/>
+        <apex:pageMessages />
+    </apex:form>    
+</apex:page>

@@ -1,0 +1,5 @@
+<apex:page showHeader="false" sidebar="false" controller="FeedbackController">
+    <apex:form >
+    	<apex:commandLink action="{!sendFeedback}">Click here to leave feedback</apex:commandLink>
+    </apex:form>
+</apex:page>
